@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "667125987588",
+    "project_id": "kiddodelivery-7e28a",
+    "storage_bucket": "kiddodelivery-7e28a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:667125987588:android:25d5d3be81d0b386127851",
+        "android_client_info": {
+          "package_name": "com.kiddo.kiddodelivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "667125987588-ng7o0mh1d1m4a3gv7vmp4bos4lfv83o4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwrTIxwIIYHHGjciaeOJ9Sw4wSnCxIiG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "667125987588-ng7o0mh1d1m4a3gv7vmp4bos4lfv83o4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
