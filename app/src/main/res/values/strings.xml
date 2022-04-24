@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">KiddoDelivery</string>
+    <string name="Password">Contraseña</string>
+    <string name="Email">Email</string>
+    <string name="Login">Login</string>
+    <string name="AunCuenta">¿Aún no tienes una cuenta? Regístrate!</string>
+    <string name="Registrarse">Registrarse</string>
+    <string name="RegistroGoogle">Pulse para registrar su cuenta con Google</string>
+    <string name="RegistroFacebook">Pulse para registrar su cuenta con Facebook</string>
+    <string name="RegistroTwitter">Pulse para registrar su cuenta con Twitter</string>
+</resources>
