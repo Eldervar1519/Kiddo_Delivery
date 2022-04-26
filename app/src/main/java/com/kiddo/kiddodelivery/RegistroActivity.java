@@ -60,7 +60,7 @@ public class RegistroActivity extends AppCompatActivity {
                                 Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado",
                                         Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                                 startActivity(i);
                                 //updateUI(user);
                             } else {
