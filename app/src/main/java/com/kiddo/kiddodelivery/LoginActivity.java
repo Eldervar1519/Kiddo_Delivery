@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText Email;
     private EditText Password;
     private ImageButton Google;
+    private ImageButton Twitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         Email = findViewById(R.id.editTextEmailLogin);
         Password = findViewById(R.id.editTextPasswordLogin);
         Google = findViewById(R.id.imageButtonGoogle);
+        Twitter = findViewById(R.id.imageButtonTwitter);
 
         /*
         Inicializamos Firebase
@@ -53,23 +55,38 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         /*
-        Inicializamos gso y gsc
+        Inicializamos gso y gsc para inicio de sesión con Google
          */
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail().build();
 
         gsc = GoogleSignIn.getClient(this, gso);
 
+        /*
+        Enlazamos botones con sus funcionalidades
+         */
         Google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 iniciarSesionGoogle();
             }
         });
+
+        Twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, TwitterActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(i);
+            }
+        });
+
+
+
     }
 
     /*
-    Método para iniciar sesión con Google
+    Métodos para iniciar sesión con Google
      */
     private void iniciarSesionGoogle() {
         Intent i = gsc.getSignInIntent();
@@ -99,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(i);
     }
-
 
     /*
     Método de inicio de sesión con mail y contraseña
