@@ -122,23 +122,32 @@ public class RegistroActivity extends AppCompatActivity {
                             map.put("password", password);
 
                             String id = mAuth.getCurrentUser().getUid();
-                            mDatabase.child("usuarios").child(id).setValue();
+                            mDatabase.child("usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task2) {
+                                    if (task2.isSuccessful()){
+                                        startActivity(new Intent(RegistroActivity.this, ProfileActivity.class));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(RegistroActivity.this, "No se pudo crear el usuario correctamente", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+
 
                             Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
+/*
                             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(i);
+*/
                         } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "signInWithCustomToken:failure", task.getException());
                             Toast.makeText(RegistroActivity.this, "Autenticación fallida",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });
-
-
     }
 }
