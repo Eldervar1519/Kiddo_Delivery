@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText Password;
     private ImageButton Google;
     private ImageButton Twitter;
+    private ImageButton Facebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +51,10 @@ public class LoginActivity extends AppCompatActivity {
         Password = findViewById(R.id.editTextPasswordLogin);
         Google = findViewById(R.id.imageButtonGoogle);
         Twitter = findViewById(R.id.imageButtonTwitter);
+        Facebook = findViewById(R.id.imageButtonFacebook);
 
         /*
-        Inicializamos Firebase
+        Inicializamos Firebase y cbm (Facebook)
          */
         mAuth = FirebaseAuth.getInstance();
 
@@ -80,9 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
-
     }
 
     /*
@@ -150,4 +151,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(this, RegistroActivity.class);
         startActivity(i);
     }
+
+
 }

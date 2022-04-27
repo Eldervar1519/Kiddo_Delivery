@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,19 +15,35 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistroActivity extends AppCompatActivity {
 
+    /*
+    Declaraciones
+     */
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     private EditText Nombre, Apellidos, DNI, Tlf, Calle, Poblacion, Mail, Password, Password2;
+    private String nombre = "", apellidos = "", dni = "", calle = "", poblacion = "", tlf = "", mail = "", password = "", password2 = "";
+    private Button Registro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
+        /*
+        Instanciamos variables
+         */
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         Nombre = findViewById(R.id.editTextEmailLogin);
         Apellidos = findViewById(R.id.editTextApellidos);
@@ -37,6 +54,44 @@ public class RegistroActivity extends AppCompatActivity {
         Mail = findViewById(R.id.editTextMail);
         Password = findViewById(R.id.editTextPasswordLogin);
         Password2 = findViewById(R.id.editTextPassword2);
+        Registro = findViewById(R.id.buttonRegistrarsePaso2);
+
+        /*
+        Funcionalidad botón Registrarse
+         */
+        Registro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nombre = Nombre.getText().toString();
+                apellidos = Apellidos.getText().toString();
+                dni = DNI.getText().toString();
+                calle = Calle.getText().toString();
+                poblacion = Poblacion.getText().toString();
+                tlf = Tlf.getText().toString();
+                mail = Mail.getText().toString();
+                password = Password.getText().toString();
+                password2 = Password2.getText().toString();
+
+                /*
+                Validaciones de los campos
+                 */
+                if (!nombre.isEmpty() && !apellidos.isEmpty() && !dni.isEmpty() && !calle.isEmpty()
+                        && !poblacion.isEmpty() && !tlf.isEmpty() && !mail.isEmpty() && !password.isEmpty()
+                        && !password2.isEmpty()) {
+
+                    if (password.length() >= 6 && password2.length() >= 6 && password.equals(password2)) {
+
+                        registrarUsuario();
+
+                    } else {
+                        Toast.makeText(RegistroActivity.this, "La contraseña tiene menos de 6 caracteres o no coinciden", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(RegistroActivity.this, "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void onStart() {
@@ -46,36 +101,43 @@ public class RegistroActivity extends AppCompatActivity {
         //updateUI(currentUser);
     }
 
-    public void registrarUsuario(View view){
+    /*
+    Método para registrar nuevo usuario
+     */
+    public void registrarUsuario() {
+        mAuth.createUserWithEmailAndPassword(mail, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
-        if (Password.getText().toString().equals(Password2.getText().toString())){
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("nombre", nombre);
+                            map.put("apellidos", apellidos);
+                            map.put("dni", dni);
+                            map.put("calle", calle);
+                            map.put("poblacion", poblacion);
+                            map.put("tlf", tlf);
+                            map.put("mail", mail);
+                            map.put("password", password);
 
-            mAuth.createUserWithEmailAndPassword(Mail.getText().toString(), Password.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                //Log.d(TAG, "signInWithCustomToken:success");
-                                Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado",
-                                        Toast.LENGTH_SHORT).show();
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                                startActivity(i);
-                                //updateUI(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                //Log.w(TAG, "signInWithCustomToken:failure", task.getException());
-                                Toast.makeText(RegistroActivity.this, "Autenticación fallida",
-                                        Toast.LENGTH_SHORT).show();
-                                //updateUI(null);
-                            }
+                            String id = mAuth.getCurrentUser().getUid();
+                            mDatabase.child("usuarios").child(id).setValue();
+
+                            Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado",
+                                    Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                            startActivity(i);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            //Log.w(TAG, "signInWithCustomToken:failure", task.getException());
+                            Toast.makeText(RegistroActivity.this, "Autenticación fallida",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
                         }
-                    });
-
-        } else {
-            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-        }
+                    }
+                });
 
 
     }
