@@ -19,7 +19,7 @@
         tools:ignore="ContentDescription" />
 
     <EditText
-        android:id="@+id/editTextEmailLogin"
+        android:id="@+id/editTextNombre"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
@@ -44,7 +44,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
 
     <Button
         android:id="@+id/buttonRegistrarsePaso2"

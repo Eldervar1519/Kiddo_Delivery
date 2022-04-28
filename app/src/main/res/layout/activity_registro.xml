@@ -7,7 +7,7 @@
     tools:context=".RegistroActivity">
 
     <EditText
-        android:id="@+id/editTextEmailLogin"
+        android:id="@+id/editTextNombre"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
@@ -27,11 +27,11 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/Apellidos"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
 
     <EditText
         android:id="@+id/editTextDNI"

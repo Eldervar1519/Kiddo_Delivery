@@ -2,22 +2,18 @@ package com.kiddo.kiddodelivery;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +22,7 @@ public class RegistroActivity extends AppCompatActivity {
     /*
     Declaraciones
      */
+
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
@@ -46,7 +43,7 @@ public class RegistroActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
 
 
-        Nombre = findViewById(R.id.editTextEmailLogin);
+        Nombre = findViewById(R.id.editTextNombre);
         Apellidos = findViewById(R.id.editTextApellidos);
         DNI = findViewById(R.id.editTextDNI);
         Tlf = findViewById(R.id.editTextTlf);
@@ -80,28 +77,39 @@ public class RegistroActivity extends AppCompatActivity {
                         && !poblacion.isEmpty() && !tlf.isEmpty() && !mail.isEmpty() && !password.isEmpty()
                         && !password2.isEmpty()) {
 
-                    if (password.length() >= 6 && password2.length() >= 6 && password.equals(password2)) {
+                    if (password.length() >= 6 && password.equals(password2)) {
 
-                        registrarUsuario();
+                        if (dni.length() == 9 && isNumeric(dni.substring(0, 7)) == true && dni.charAt(8) >= 'A' && dni.charAt(8) <= 'Z'){
 
-                    } else {
+                           if (tlf.length() == 9 && isNumeric(tlf)){
+
+                                if (mail.contains("@") && mail.contains(".")){
+
+                                    registrarUsuario();
+
+                                } else
+                                    Toast.makeText(RegistroActivity.this, "La dirección de email no es válida", Toast.LENGTH_SHORT).show();
+                            } else
+                                Toast.makeText(RegistroActivity.this, "El número de teléfono no es válido", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(RegistroActivity.this, "El DNI no es válido", Toast.LENGTH_SHORT).show();
+                    } else
                         Toast.makeText(RegistroActivity.this, "La contraseña tiene menos de 6 caracteres o no coinciden", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
+                } else
                     Toast.makeText(RegistroActivity.this, "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
-/*
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+
+    private static boolean isNumeric(String cadena){
+        try{
+            Integer.parseInt(cadena);
+            return true;
+        }catch (NumberFormatException nfe) {
+            return false;
+        }
     }
-*/
+
     /*
     Método para registrar nuevo usuario
      */
@@ -131,25 +139,13 @@ public class RegistroActivity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(RegistroActivity.this, ProfileActivity.class));
                                         finish();
-                                    } else {
+                                    } else
                                         Toast.makeText(RegistroActivity.this, "No se pudo crear el usuario correctamente", Toast.LENGTH_SHORT).show();
-                                    }
                                 }
                             });
 
-
-/*
-                            Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado",
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-
-                            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                            startActivity(i);
-*/
-                        } else {
-                            Toast.makeText(RegistroActivity.this, "Autenticación fallida",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                        } else
+                            Toast.makeText(RegistroActivity.this, "Autenticación fallida", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
