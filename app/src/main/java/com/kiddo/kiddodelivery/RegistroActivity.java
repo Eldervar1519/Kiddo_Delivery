@@ -28,9 +28,10 @@ public class RegistroActivity extends AppCompatActivity {
      */
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
 
     private EditText Nombre, Apellidos, DNI, Tlf, Calle, Poblacion, Mail, Password, Password2;
-    private String nombre = "", apellidos = "", dni = "", calle = "", poblacion = "", tlf = "", mail = "", password = "", password2 = "";
+    private String nombre="",apellidos="",dni="",calle="",poblacion="",tlf="",mail="",password="",password2="";
     private Button Registro;
 
     @Override
@@ -42,7 +43,7 @@ public class RegistroActivity extends AppCompatActivity {
         Instanciamos variables
          */
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance(URL).getReference();
 
 
         Nombre = findViewById(R.id.editTextEmailLogin);
@@ -93,14 +94,14 @@ public class RegistroActivity extends AppCompatActivity {
             }
         });
     }
-
+/*
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
     }
-
+*/
     /*
     Método para registrar nuevo usuario
      */
@@ -126,6 +127,8 @@ public class RegistroActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task2) {
                                     if (task2.isSuccessful()){
+                                        Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado2",
+                                                Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(RegistroActivity.this, ProfileActivity.class));
                                         finish();
                                     } else {
@@ -135,11 +138,11 @@ public class RegistroActivity extends AppCompatActivity {
                             });
 
 
-
+/*
                             Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-/*
+
                             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(i);
 */

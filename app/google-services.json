@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "667125987588",
+    "firebase_url": "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "kiddodelivery-7e28a",
     "storage_bucket": "kiddodelivery-7e28a.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "667125987588-9dbavovjn42v07bikl9adct78oqqsl05.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiddo.kiddodelivery",
+            "certificate_hash": "755cacea836efa9693e9cbc3ee87cd8cb62724c6"
+          }
+        },
         {
           "client_id": "667125987588-ng7o0mh1d1m4a3gv7vmp4bos4lfv83o4.apps.googleusercontent.com",
           "client_type": 3
@@ -27,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "667125987588-ng7o0mh1d1m4a3gv7vmp4bos4lfv83o4.apps.googleusercontent.com",
+              "client_id": "667125987588-7h3a2ubc23qf0ls18d19cu50u81cg3iq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
