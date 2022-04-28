@@ -149,5 +149,13 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /*
+    Método para pasar a pantalla de reestablecer contraseña
+     */
+    public void irResetPassword(View view){
+        Intent i = new Intent(this, ResetPasswordActivity.class);
+        startActivity(i);
+    }
+
 
 }
