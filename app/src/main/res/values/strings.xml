@@ -17,6 +17,7 @@
     <string name="RepetirPassword">Repetir Contraseña</string>
     <string name="Poblacion">Población</string>
     <string name="Reset_password">He olvidado mi contraseña</string>
+    <string name="Reset_password_activity">Resetear contraseña</string>
 
     <string name="facebook_app_id">1234</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
