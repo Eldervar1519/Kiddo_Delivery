@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -35,6 +36,10 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton Google;
     private ImageButton Twitter;
     private ImageButton Facebook;
+    private Button Login;
+
+    private String email = "";
+    private String password = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,26 +124,29 @@ public class LoginActivity extends AppCompatActivity {
     Método de inicio de sesión con mail y contraseña
      */
     public void iniciarSesion (View view){
-        mAuth.signInWithEmailAndPassword(Email.getText().toString(), Password.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithCustomToken:success");
-                            Toast.makeText(LoginActivity.this, "Autenticación realizada con éxito",
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "signInWithCustomToken:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Autenticación fallida",
-                                    Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+
+        email = Email.getText().toString();
+        password = Password.getText().toString();
+
+        if (!email.isEmpty() && !password.isEmpty()){
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, "Autenticación realizada con éxito",
+                                        Toast.LENGTH_SHORT).show();
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            } else
+                                Toast.makeText(LoginActivity.this, "No se pudo iniciar sesión. Compruebe los datos",
+                                        Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+                    });
+        } else
+            Toast.makeText(this, "Rellene los campos", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -155,6 +163,19 @@ public class LoginActivity extends AppCompatActivity {
     public void irResetPassword(View view){
         Intent i = new Intent(this, ResetPasswordActivity.class);
         startActivity(i);
+    }
+
+    /*
+    Método para pasar directamente a main activity al arrancar app si el usuario ya está logeado
+     */
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        if (mAuth.getCurrentUser() != null){
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
     }
 
 

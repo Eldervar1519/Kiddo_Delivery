@@ -52,7 +52,7 @@ public class RegistroActivity extends AppCompatActivity {
         Mail = findViewById(R.id.editTextMail);
         Password = findViewById(R.id.editTextPasswordLogin);
         Password2 = findViewById(R.id.editTextPassword2);
-        Registro = findViewById(R.id.buttonRegistrarsePaso2);
+        Registro = findViewById(R.id.buttonLogin);
 
         /*
         Funcionalidad botón Registrarse
