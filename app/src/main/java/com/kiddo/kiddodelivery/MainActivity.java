@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button SignOut;
     private TextView Bienvenida;
-    private String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app";
+    private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app";
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -50,20 +52,21 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         getUserInfo();
     }
 
     /*
     Método para obtener el nombre de usuario de la BD y mostrar el mensaje de bienvenida
      */
-    private void getUserInfo(){
+    private void getUserInfo() {
 
         String id = mAuth.getCurrentUser().getUid();
 
         mDatabase.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     String nombre = snapshot.child("nombre").getValue().toString();
                     String bienvenida = "Bienvenido " + nombre;
                     Bienvenida.setText(bienvenida);
@@ -72,8 +75,38 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(MainActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
+    /*
+    Método para mostrar/ocultar menú overflow
+     */
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_overflow, menu);
+        return true;
+    }
+
+    /*
+    Método para asignar las funcionalidades de las distintas opciones del menú overflow
+     */
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.itemNotificaciones)
+            //Llamar método notificaciones
+            Toast.makeText(this, "Notificaciones", Toast.LENGTH_SHORT).show();
+        else if (id == R.id.itemLogout)
+            //SignOut();
+            Toast.makeText(this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
+        else if (id == R.id.itemBaja)
+            //LLamar método darse de baja
+            Toast.makeText(this, "Darse de baja", Toast.LENGTH_SHORT).show();
+            
+        return super.onOptionsItemSelected(item);    
+    }
+
 }

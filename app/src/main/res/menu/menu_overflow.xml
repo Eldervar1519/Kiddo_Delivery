@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemNotificaciones"
+        android:title="@string/Notificaciones" />
+    <item
+        android:id="@+id/itemLogout"
+        android:title="@string/Cerrar_sesion" />
+    <item
+        android:id="@+id/itemBaja"
+        android:title="@string/Darse_baja" />
+</menu>

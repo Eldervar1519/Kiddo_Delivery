@@ -20,8 +20,8 @@
     <string name="Reset_password_activity">Resetear contraseña</string>
     <string name="Padres_confianza">Padres de confianza</string>
     <string name="Cerrar_sesion">Cerrar Sesión</string>
-    <string name="URL_DB">https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app</string>
-
+    <string name="Notificaciones">Notificaciones</string>
+    <string name="Darse_baja">Darse de baja</string>
     <string name="facebook_app_id">1234</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">56789</string>
