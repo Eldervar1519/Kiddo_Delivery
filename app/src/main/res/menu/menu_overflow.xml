@@ -6,9 +6,9 @@
         android:id="@+id/itemNotificaciones"
         android:title="@string/Notificaciones" />
     <item
-        android:id="@+id/itemLogout"
-        android:title="@string/Cerrar_sesion" />
+        android:id="@+id/itemHijos"
+        android:title="@string/Hijos" />
     <item
-        android:id="@+id/itemBaja"
-        android:title="@string/Darse_baja" />
+        android:id="@+id/itemCuenta"
+        android:title="@string/Cuenta" />
 </menu>

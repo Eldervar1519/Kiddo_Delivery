@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button SignOut;
     private TextView Bienvenida;
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app";
+    private Button Padres;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -38,6 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
         SignOut = findViewById(R.id.buttonSignOut);
         Bienvenida = findViewById(R.id.textViewBienvenida);
+        Padres = findViewById(R.id.buttonPadres);
+
+        /*
+        Método para ir a PadresDeConfianzaActivity
+         */
+        Padres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, PadresActivity.class);
+                startActivity(i);
+            }
+        });
 
         /*
         Método para cerrar sesión
@@ -52,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         getUserInfo();
     }
 
@@ -99,14 +111,14 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.itemNotificaciones)
             //Llamar método notificaciones
             Toast.makeText(this, "Notificaciones", Toast.LENGTH_SHORT).show();
-        else if (id == R.id.itemLogout)
+        else if (id == R.id.itemHijos)
             //SignOut();
             Toast.makeText(this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
-        else if (id == R.id.itemBaja)
+        else if (id == R.id.itemCuenta)
             //LLamar método darse de baja
             Toast.makeText(this, "Darse de baja", Toast.LENGTH_SHORT).show();
-            
-        return super.onOptionsItemSelected(item);    
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

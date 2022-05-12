@@ -22,7 +22,6 @@ public class RegistroActivity extends AppCompatActivity {
     /*
     Declaraciones
      */
-
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
@@ -101,7 +100,10 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
-    private static boolean isNumeric(String cadena){
+    /*
+    Función que comprueba si un string o substring es completamente numérico
+     */
+    static boolean isNumeric(String cadena){
         try{
             Integer.parseInt(cadena);
             return true;
@@ -128,7 +130,6 @@ public class RegistroActivity extends AppCompatActivity {
                             map.put("poblacion", poblacion);
                             map.put("tlf", tlf);
                             map.put("mail", mail);
-                            map.put("password", password);
 
                             String id = mAuth.getCurrentUser().getUid();
                             mDatabase.child("usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -143,7 +144,6 @@ public class RegistroActivity extends AppCompatActivity {
                                         Toast.makeText(RegistroActivity.this, "No se pudo crear el usuario correctamente", Toast.LENGTH_SHORT).show();
                                 }
                             });
-
                         } else
                             Toast.makeText(RegistroActivity.this, "Autenticación fallida", Toast.LENGTH_SHORT).show();
                     }

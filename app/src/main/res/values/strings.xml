@@ -22,6 +22,12 @@
     <string name="Cerrar_sesion">Cerrar Sesión</string>
     <string name="Notificaciones">Notificaciones</string>
     <string name="Darse_baja">Darse de baja</string>
+    <string name="Añadir_padres">Añadir padres de confianza</string>
+    <string name="Ver_padres">Ver padres de confianza</string>
+    <string name="Hijos">Hijos</string>
+    <string name="Cuenta">Mi cuenta</string>
+    <string name="Añadir">Añadir</string>
+    <string name="Cancelar">Cancelar</string>
     <string name="facebook_app_id">1234</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">56789</string>
