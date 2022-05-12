@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PadresActivity extends AppCompatActivity {
 
@@ -31,6 +35,7 @@ public class PadresActivity extends AppCompatActivity {
     private EditText Mail;
     private TextView NombrePC;
 
+    private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
 
@@ -49,6 +54,7 @@ public class PadresActivity extends AppCompatActivity {
         Mail = findViewById(R.id.editTextMailPC);
         NombrePC = findViewById(R.id.textViewNombrePC);
 
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
 
         /*
@@ -86,6 +92,7 @@ public class PadresActivity extends AppCompatActivity {
     public void añadirPC(){
 
         String mail = Mail.getText().toString();
+        String PCid;
 
         if (mail.contains("@") && mail.contains(".")){
 
@@ -97,9 +104,14 @@ public class PadresActivity extends AppCompatActivity {
 
             for (int x = 0; x < Usuario.listaUsuarios.size(); x++){
                 Usuario usuario = Usuario.listaUsuarios.get(x);
-                String nombre = usuario.getNombre();
-                NombrePC.setText(nombre);
+                PCid = usuario.getId();
+                NombrePC.setText(PCid);
+
+                String Uid = mAuth.getCurrentUser().getUid();
+                mDatabase.child("usuarios").child(Uid).child("padresConf").setValue(PCid);
             }
+
+
         }
     }
 

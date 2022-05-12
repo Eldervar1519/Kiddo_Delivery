@@ -122,6 +122,8 @@ public class RegistroActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
+                            String id = mAuth.getCurrentUser().getUid();
+
                             Map<String, Object> map = new HashMap<>();
                             map.put("nombre", nombre);
                             map.put("apellidos", apellidos);
@@ -130,15 +132,15 @@ public class RegistroActivity extends AppCompatActivity {
                             map.put("poblacion", poblacion);
                             map.put("tlf", tlf);
                             map.put("mail", mail);
+                            map.put("id", id);
 
-                            String id = mAuth.getCurrentUser().getUid();
                             mDatabase.child("usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task2) {
                                     if (task2.isSuccessful()){
-                                        Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado2",
+                                        Toast.makeText(RegistroActivity.this, "Nuevo usuario registrado",
                                                 Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(RegistroActivity.this, ProfileActivity.class));
+                                        startActivity(new Intent(RegistroActivity.this, MainActivity.class));
                                         finish();
                                     } else
                                         Toast.makeText(RegistroActivity.this, "No se pudo crear el usuario correctamente", Toast.LENGTH_SHORT).show();

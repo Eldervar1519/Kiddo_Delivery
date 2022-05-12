@@ -5,14 +5,14 @@ import java.util.Objects;
 
 public class Usuario {
 
-    private String nombre, apellido, dni, calle, poblacion, mail, tlf;
+    private String nombre, apellido, dni, calle, poblacion, mail, tlf, id;
 
     static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String dni, String calle, String poblacion, String mail, String tlf) {
+    public Usuario(String nombre, String apellido, String dni, String calle, String poblacion, String mail, String tlf, String id) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -20,6 +20,7 @@ public class Usuario {
         this.poblacion = poblacion;
         this.mail = mail;
         this.tlf = tlf;
+        this.id = id;
     }
 
     public String getNombre() {
@@ -76,6 +77,14 @@ public class Usuario {
 
     public void setTlf(String tlf) {
         this.tlf = tlf;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
