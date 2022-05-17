@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class PadresActivity extends AppCompatActivity {
 
     /*
@@ -26,8 +28,10 @@ public class PadresActivity extends AppCompatActivity {
      */
     private Button AñadirPadres, Añadir, Cancelar;
     private EditText Mail;
-    private TextView MailPC;
     private String Umail;
+    private ArrayList<PadresDeConfianzaModel> listaPCModels = new ArrayList<>();
+    private ArrayList<String> listaPCids = new ArrayList<>();
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -46,7 +50,6 @@ public class PadresActivity extends AppCompatActivity {
         Añadir = findViewById(R.id.buttonAñadir);
         Cancelar = findViewById(R.id.buttonCancelar);
         Mail = findViewById(R.id.editTextMailPC);
-        MailPC = findViewById(R.id.textViewMailPC);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
@@ -83,27 +86,24 @@ public class PadresActivity extends AppCompatActivity {
     /*
     Método para añadir padres de confianza
      */
-    public void añadirPC(){
+    public void añadirPC() {
 
         String mail = Mail.getText().toString();
         String PCid;
 
-        if (mail.contains("@") && mail.contains(".")){
+        if (mail.contains("@") && mail.contains(".")) {
 
             Query query = FirebaseDatabase.getInstance(URL).getReference("usuarios")
                     .orderByChild("mail")
                     .equalTo(mail);
 
             query.addListenerForSingleValueEvent(VEL);
-
             String Uid = mAuth.getCurrentUser().getUid();
-
             getUserMail(Uid);
 
-            for (int x = 0; x < Usuario.listaUsuarios.size(); x++){
+            for (int x = 0; x < Usuario.listaUsuarios.size(); x++) {
                 Usuario usuario = Usuario.listaUsuarios.get(x);
                 PCid = usuario.getId();
-                MailPC.setText(PCid);
 
                 mDatabase.child("usuarios").child(Uid).child("padresConf").child(PCid).setValue(mail);
                 mDatabase.child("usuarios").child(PCid).child("padresConf").child(Uid).setValue(Umail);
@@ -150,7 +150,7 @@ public class PadresActivity extends AppCompatActivity {
                     Usuario usuario = DSnapshot.getValue(Usuario.class);
                     Usuario.listaUsuarios.add(usuario);
                 }
-            }else
+            } else
                 Toast.makeText(PadresActivity.this, "No se encontraron coincidencias", Toast.LENGTH_SHORT).show();
         }
 
@@ -159,6 +159,37 @@ public class PadresActivity extends AppCompatActivity {
             Toast.makeText(PadresActivity.this, "Error al acceder a la base de datos", Toast.LENGTH_SHORT).show();
         }
     };
+
+    /*
+    Método para diseñar los cardViews del RecyclerView de padres de confianza
+     */
+    private void construirPCModels() {
+
+
+    }
+
+    /*
+    Método para obtener los UIds de los padres de confianza
+     */
+    private void obtenerPCids() {
+
+        String Uid = mAuth.getCurrentUser().getUid();
+
+        mDatabase.child("usuarios").child(Uid).child("padresConf").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PadresActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 }
 
 /*

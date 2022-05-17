@@ -65,17 +65,17 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        getUserInfo();
+        getUserName();
     }
 
     /*
     Método para obtener el nombre de usuario de la BD y mostrar el mensaje de bienvenida
      */
-    private void getUserInfo() {
+    private void getUserName() {
 
-        String id = mAuth.getCurrentUser().getUid();
+        String Uid = mAuth.getCurrentUser().getUid();
 
-        mDatabase.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("usuarios").child(Uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
