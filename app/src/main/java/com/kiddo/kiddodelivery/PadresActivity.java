@@ -1,9 +1,6 @@
 package com.kiddo.kiddodelivery;
 
-import static com.kiddo.kiddodelivery.RegistroActivity.isNumeric;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,16 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PadresActivity extends AppCompatActivity {
 
@@ -33,7 +26,8 @@ public class PadresActivity extends AppCompatActivity {
      */
     private Button AñadirPadres, Añadir, Cancelar;
     private EditText Mail;
-    private TextView NombrePC;
+    private TextView MailPC;
+    private String Umail;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -52,7 +46,7 @@ public class PadresActivity extends AppCompatActivity {
         Añadir = findViewById(R.id.buttonAñadir);
         Cancelar = findViewById(R.id.buttonCancelar);
         Mail = findViewById(R.id.editTextMailPC);
-        NombrePC = findViewById(R.id.textViewNombrePC);
+        MailPC = findViewById(R.id.textViewMailPC);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
@@ -102,19 +96,51 @@ public class PadresActivity extends AppCompatActivity {
 
             query.addListenerForSingleValueEvent(VEL);
 
+            String Uid = mAuth.getCurrentUser().getUid();
+
+            getUserMail(Uid);
+
             for (int x = 0; x < Usuario.listaUsuarios.size(); x++){
                 Usuario usuario = Usuario.listaUsuarios.get(x);
                 PCid = usuario.getId();
-                NombrePC.setText(PCid);
+                MailPC.setText(PCid);
 
-                String Uid = mAuth.getCurrentUser().getUid();
-                mDatabase.child("usuarios").child(Uid).child("padresConf").setValue(PCid);
+                mDatabase.child("usuarios").child(Uid).child("padresConf").child(PCid).setValue(mail);
+                mDatabase.child("usuarios").child(PCid).child("padresConf").child(Uid).setValue(Umail);
+
+                Toast.makeText(this, "Padres añadidos!", Toast.LENGTH_SHORT).show();
+
+                Añadir.setVisibility(View.GONE);
+                Cancelar.setVisibility(View.GONE);
+                Mail.setVisibility(View.GONE);
+                AñadirPadres.setVisibility(View.VISIBLE);
             }
-
-
         }
     }
 
+    /*
+    Método para obtener el mail del usuario logeado
+     */
+    private void getUserMail(String Uid) {
+
+        mDatabase.child("usuarios").child(Uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Umail = snapshot.child("mail").getValue().toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PadresActivity.this, "Error al acceder a la base de datos", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /*
+    Método para obtener el usuario que se quiere añadir a PC
+     */
     ValueEventListener VEL = new ValueEventListener() {
 
         @Override
