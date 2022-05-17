@@ -30,7 +30,7 @@ public class PadresActivity extends AppCompatActivity {
     private EditText Mail;
     private String Umail;
     private ArrayList<PadresDeConfianzaModel> listaPCModels = new ArrayList<>();
-    private ArrayList<String> listaPCids = new ArrayList<>();
+    private ArrayList<String> listaPCIds = new ArrayList<>();
 
 
     private FirebaseAuth mAuth;
@@ -114,6 +114,8 @@ public class PadresActivity extends AppCompatActivity {
                 Cancelar.setVisibility(View.GONE);
                 Mail.setVisibility(View.GONE);
                 AñadirPadres.setVisibility(View.VISIBLE);
+
+                obtenerPCids();
             }
         }
     }
@@ -179,7 +181,12 @@ public class PadresActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-
+                    for (DataSnapshot child : snapshot.getChildren()){
+                        listaPCIds.add(child.getKey());
+                    }
+                    for (int i = 0; i < listaPCIds.size(); i++){
+                        Toast.makeText(PadresActivity.this, "id:" + listaPCIds.get(i), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
