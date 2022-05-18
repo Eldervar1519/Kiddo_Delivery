@@ -3,6 +3,7 @@ package com.kiddo.kiddodelivery;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app";
     private Button Padres;
     private String UId;
+    private Button Hijos;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         SignOut = findViewById(R.id.buttonSignOut);
         Bienvenida = findViewById(R.id.textViewBienvenida);
         Padres = findViewById(R.id.buttonPadres);
+        Hijos = findViewById(R.id.itemHijos);
 
         UId = mAuth.getCurrentUser().getUid();
 

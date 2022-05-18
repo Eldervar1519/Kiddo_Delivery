@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_baseline_child_care_24"></ImageView>
+
+    <TextView
+        android:id="@+id/textViewDialogoHijos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Nombre_hijos"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/editTextHijo1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/Nombre"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+
+</LinearLayout>
