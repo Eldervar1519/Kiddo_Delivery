@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView Bienvenida;
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app";
     private Button Padres;
+    private String UId;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         SignOut = findViewById(R.id.buttonSignOut);
         Bienvenida = findViewById(R.id.textViewBienvenida);
         Padres = findViewById(R.id.buttonPadres);
+
+        UId = mAuth.getCurrentUser().getUid();
 
         /*
         Método para ir a PadresDeConfianzaActivity
@@ -65,17 +68,15 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        getUserName();
+        getUserName(UId);
     }
 
     /*
     Método para obtener el nombre de usuario de la BD y mostrar el mensaje de bienvenida
      */
-    private void getUserName() {
+    private void getUserName(String UId) {
 
-        String Uid = mAuth.getCurrentUser().getUid();
-
-        mDatabase.child("usuarios").child(Uid).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("usuarios").child(UId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {

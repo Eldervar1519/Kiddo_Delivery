@@ -13,6 +13,10 @@ public class PadresDeConfianzaModel {
         this.hijos = hijos;
     }
 
+    public PadresDeConfianzaModel(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getNombre() {
         return nombre;
     }

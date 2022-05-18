@@ -2,6 +2,8 @@ package com.kiddo.kiddodelivery;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,9 +31,11 @@ public class PadresActivity extends AppCompatActivity {
     private Button AñadirPadres, Añadir, Cancelar;
     private EditText Mail;
     private String Umail;
+    private RecyclerView RV;
+
     private ArrayList<PadresDeConfianzaModel> listaPCModels = new ArrayList<>();
     private ArrayList<String> listaPCIds = new ArrayList<>();
-
+    private ArrayList<String> listaPCNombreApellido = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -50,6 +54,7 @@ public class PadresActivity extends AppCompatActivity {
         Añadir = findViewById(R.id.buttonAñadir);
         Cancelar = findViewById(R.id.buttonCancelar);
         Mail = findViewById(R.id.editTextMailPC);
+        RV = findViewById(R.id.recyclerViewPC);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
@@ -81,6 +86,16 @@ public class PadresActivity extends AppCompatActivity {
                 añadirPC();
             }
         });
+
+        /*
+        Para el RecyclerView...
+         */
+        construirPCModels();
+
+        PC_RecyclerViewAdapter adapter = new PC_RecyclerViewAdapter(this, listaPCModels);
+
+        RV.setAdapter(adapter);
+        RV.setLayoutManager(new LinearLayoutManager(this));
     }
 
     /*
@@ -114,10 +129,9 @@ public class PadresActivity extends AppCompatActivity {
                 Cancelar.setVisibility(View.GONE);
                 Mail.setVisibility(View.GONE);
                 AñadirPadres.setVisibility(View.VISIBLE);
-
-                obtenerPCids();
             }
-        }
+        } else
+            Toast.makeText(this, "Introduce un mail válido", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -167,6 +181,13 @@ public class PadresActivity extends AppCompatActivity {
      */
     private void construirPCModels() {
 
+        obtenerPCids();
+
+        for (int i = 0; i < listaPCIds.size(); i++)
+            obtenerPCNombreApellido(listaPCIds.get(i));
+
+        for (int i = 0; i < listaPCNombreApellido.size(); i++)
+            listaPCModels.add(new PadresDeConfianzaModel(listaPCNombreApellido.get(i)));
 
     }
 
@@ -184,9 +205,6 @@ public class PadresActivity extends AppCompatActivity {
                     for (DataSnapshot child : snapshot.getChildren()){
                         listaPCIds.add(child.getKey());
                     }
-                    for (int i = 0; i < listaPCIds.size(); i++){
-                        Toast.makeText(PadresActivity.this, "id:" + listaPCIds.get(i), Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
 
@@ -195,7 +213,28 @@ public class PadresActivity extends AppCompatActivity {
                 Toast.makeText(PadresActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    /*
+    Método para obtener nombre y apellidos de un determinado usuario
+     */
+    private void obtenerPCNombreApellido(String UId) {
+
+        mDatabase.child("usuarios").child(UId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String nombre = snapshot.child("nombre").getValue().toString();
+                    String apellido = snapshot.child("apellido").getValue().toString();
+                    listaPCNombreApellido.add(nombre + " " + apellido);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PadresActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 
