@@ -1,15 +1,18 @@
 package com.kiddo.kiddodelivery;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +74,44 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        
+        /*
+        Método para añadir hijos
+         */
+        /*
+        Hijos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarDialogoHijos();
+            }
+        });
+        */
         getUserName(UId);
+    }
+
+    private void mostrarDialogoHijos() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialogo_hijos, null);
+        builder.setView(view);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        TextView dialogoHijos = view.findViewById(R.id.textViewDialogoHijos);
+        EditText hijo1 = findViewById(R.id.editTextHijo1);
+        Button añadir = findViewById(R.id.buttonAñadirHijos);
+
+        añadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String hijo = hijo1.getText().toString();
+                mDatabase.child("usuarios").child(UId).child("hijos").setValue(hijo);
+                Toast.makeText(MainActivity.this, "Hijo añadido", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
     }
 
     /*

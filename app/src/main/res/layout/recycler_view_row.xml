@@ -7,11 +7,11 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="9dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="9dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
@@ -22,12 +22,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp">
 
             <ImageButton
                 android:id="@+id/imageButtonCVEliminar"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -37,6 +41,7 @@
                 android:id="@+id/imageButtonCVLlamar"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginBottom="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageButtonCVEliminar"
                 app:layout_constraintTop_toTopOf="parent"
@@ -49,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
+                android:layout_marginBottom="1dp"
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textStyle="bold|italic"
@@ -61,6 +67,7 @@
                 android:id="@+id/imageViewCVAvatar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

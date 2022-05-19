@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PadresActivity extends AppCompatActivity {
 
@@ -31,11 +34,15 @@ public class PadresActivity extends AppCompatActivity {
     private Button AñadirPadres, Añadir, Cancelar;
     private EditText Mail;
     private String Umail;
-    private RecyclerView RV;
 
-    private ArrayList<PadresDeConfianzaModel> listaPCModels = new ArrayList<>();
-    private ArrayList<String> listaPCIds = new ArrayList<>();
-    private ArrayList<String> listaPCNombreApellido = new ArrayList<>();
+    int imageNiño = R.drawable.ic_baseline_child_care_24;
+    int imageBtnLlamar = R.drawable.ic_baseline_phone_forwarded_24;
+    int imageBtnEliminar = R.drawable.ic_baseline_highlight_off_24;
+
+    ArrayList<PadresDeConfianzaModel> listaPCModels = new ArrayList<>();
+    ArrayList<String> listaPCIds = new ArrayList<>();
+    ArrayList<String> listaPCNombreApellido = new ArrayList<>();
+    ArrayList<String> listaPCHijos = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -54,10 +61,16 @@ public class PadresActivity extends AppCompatActivity {
         Añadir = findViewById(R.id.buttonAñadir);
         Cancelar = findViewById(R.id.buttonCancelar);
         Mail = findViewById(R.id.editTextMailPC);
-        RV = findViewById(R.id.recyclerViewPC);
+        RecyclerView RV = findViewById(R.id.recyclerViewPC);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
+
+        /*
+        Creamos modelo RV
+         */
+        construirPCModels();
+
 
         /*
         Funcionalidad de los botones
@@ -90,12 +103,21 @@ public class PadresActivity extends AppCompatActivity {
         /*
         Para el RecyclerView...
          */
-        construirPCModels();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                PC_RecyclerViewAdapter adapter = new PC_RecyclerViewAdapter(PadresActivity.this, listaPCModels);
+                RV.setAdapter(adapter);
+                RV.setLayoutManager(new LinearLayoutManager(PadresActivity.this));
+            }
+        }, 20000);
 
-        PC_RecyclerViewAdapter adapter = new PC_RecyclerViewAdapter(this, listaPCModels);
 
-        RV.setAdapter(adapter);
-        RV.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+
+
     }
 
     /*
@@ -183,12 +205,32 @@ public class PadresActivity extends AppCompatActivity {
 
         obtenerPCids();
 
-        for (int i = 0; i < listaPCIds.size(); i++)
+        for (int i = 0; i < listaPCIds.size(); i++) {
             obtenerPCNombreApellido(listaPCIds.get(i));
+            obtenerHijo(listaPCIds.get(i));
+        }
 
         for (int i = 0; i < listaPCNombreApellido.size(); i++)
-            listaPCModels.add(new PadresDeConfianzaModel(listaPCNombreApellido.get(i)));
+            listaPCModels.add(new PadresDeConfianzaModel(listaPCNombreApellido.get(i), listaPCHijos.get(i),
+                    imageNiño, imageBtnLlamar, imageBtnEliminar));
+    }
 
+    private void obtenerHijo(String UId) {
+
+        mDatabase.child("usuarios").child(UId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String hijo = snapshot.child("hijos").getValue().toString();
+                    listaPCHijos.add(hijo);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PadresActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /*
@@ -202,7 +244,7 @@ public class PadresActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    for (DataSnapshot child : snapshot.getChildren()){
+                    for (DataSnapshot child : snapshot.getChildren()) {
                         listaPCIds.add(child.getKey());
                     }
                 }
