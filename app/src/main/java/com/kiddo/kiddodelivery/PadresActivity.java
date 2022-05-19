@@ -208,6 +208,7 @@ public class PadresActivity extends AppCompatActivity {
         for (int i = 0; i < listaPCIds.size(); i++) {
             obtenerPCNombreApellido(listaPCIds.get(i));
             obtenerHijo(listaPCIds.get(i));
+            //Toast.makeText(this, listaPCIds.get(i), Toast.LENGTH_SHORT).show();
         }
 
         for (int i = 0; i < listaPCNombreApellido.size(); i++)
@@ -223,6 +224,7 @@ public class PadresActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String hijo = snapshot.child("hijos").getValue().toString();
                     listaPCHijos.add(hijo);
+                    Toast.makeText(PadresActivity.this, hijo, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -246,6 +248,7 @@ public class PadresActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot child : snapshot.getChildren()) {
                         listaPCIds.add(child.getKey());
+                        Toast.makeText(PadresActivity.this, listaPCIds.get(0), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -269,6 +272,7 @@ public class PadresActivity extends AppCompatActivity {
                     String nombre = snapshot.child("nombre").getValue().toString();
                     String apellido = snapshot.child("apellido").getValue().toString();
                     listaPCNombreApellido.add(nombre + " " + apellido);
+                    Toast.makeText(PadresActivity.this, "nombre + \" \" + apellido", Toast.LENGTH_SHORT).show();
                 }
             }
 
