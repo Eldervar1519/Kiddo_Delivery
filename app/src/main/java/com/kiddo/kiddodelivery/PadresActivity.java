@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,8 +22,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class PadresActivity extends AppCompatActivity {
 
@@ -33,7 +30,8 @@ public class PadresActivity extends AppCompatActivity {
      */
     private Button AñadirPadres, Añadir, Cancelar;
     private EditText Mail;
-    private String Umail;
+    private String Umail, NombrePC, HijoPC;
+
 
     int imageNiño = R.drawable.ic_baseline_child_care_24;
     int imageBtnLlamar = R.drawable.ic_baseline_phone_forwarded_24;
@@ -47,6 +45,8 @@ public class PadresActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
+
+
 
 
     @Override
@@ -69,7 +69,11 @@ public class PadresActivity extends AppCompatActivity {
         /*
         Creamos modelo RV
          */
-        construirPCModels();
+        obtenerPCids();
+
+
+
+
 
 
         /*
@@ -201,19 +205,32 @@ public class PadresActivity extends AppCompatActivity {
     /*
     Método para diseñar los cardViews del RecyclerView de padres de confianza
      */
-    private void construirPCModels() {
+    private void añadirDatosPCaListas() {
 
-        obtenerPCids();
+        //comprobacion
+        for (int i = 0; i < listaPCIds.size(); i++){
+            Toast.makeText(PadresActivity.this, listaPCIds.get(i), Toast.LENGTH_SHORT).show();
+        }
+
+        //lista correcta
+
 
         for (int i = 0; i < listaPCIds.size(); i++) {
             obtenerPCNombreApellido(listaPCIds.get(i));
             obtenerHijo(listaPCIds.get(i));
-            //Toast.makeText(this, listaPCIds.get(i), Toast.LENGTH_SHORT).show();
         }
 
-        for (int i = 0; i < listaPCNombreApellido.size(); i++)
-            listaPCModels.add(new PadresDeConfianzaModel(listaPCNombreApellido.get(i), listaPCHijos.get(i),
-                    imageNiño, imageBtnLlamar, imageBtnEliminar));
+        //comprobaciones
+        for (int i = 0; i < listaPCNombreApellido.size(); i++){
+            Toast.makeText(PadresActivity.this, listaPCNombreApellido.get(i), Toast.LENGTH_SHORT).show();
+        }
+        for (int i = 0; i < listaPCHijos.size(); i++){
+            Toast.makeText(PadresActivity.this, listaPCHijos.get(i), Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
     }
 
     private void obtenerHijo(String UId) {
@@ -224,8 +241,11 @@ public class PadresActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String hijo = snapshot.child("hijos").getValue().toString();
                     listaPCHijos.add(hijo);
-                    Toast.makeText(PadresActivity.this, hijo, Toast.LENGTH_SHORT).show();
+                    HijoPC = hijo;
+                    listaPCModels.add(new PadresDeConfianzaModel(NombrePC, HijoPC,
+                            imageNiño, imageBtnLlamar, imageBtnEliminar));
                 }
+
             }
 
             @Override
@@ -248,8 +268,11 @@ public class PadresActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot child : snapshot.getChildren()) {
                         listaPCIds.add(child.getKey());
-                        Toast.makeText(PadresActivity.this, listaPCIds.get(0), Toast.LENGTH_SHORT).show();
                     }
+                    //lista correcta
+
+                    añadirDatosPCaListas();
+
                 }
             }
 
@@ -270,9 +293,9 @@ public class PadresActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String nombre = snapshot.child("nombre").getValue().toString();
-                    String apellido = snapshot.child("apellido").getValue().toString();
+                    String apellido = snapshot.child("apellidos").getValue().toString();
                     listaPCNombreApellido.add(nombre + " " + apellido);
-                    Toast.makeText(PadresActivity.this, "nombre + \" \" + apellido", Toast.LENGTH_SHORT).show();
+                    NombrePC = nombre + " " + apellido;
                 }
             }
 
