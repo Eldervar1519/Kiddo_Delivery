@@ -107,6 +107,7 @@ public class PadresActivity extends AppCompatActivity {
         /*
         Para el RecyclerView...
          */
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -114,7 +115,7 @@ public class PadresActivity extends AppCompatActivity {
                 RV.setAdapter(adapter);
                 RV.setLayoutManager(new LinearLayoutManager(PadresActivity.this));
             }
-        }, 20000);
+        }, 1000);
 
 
 
@@ -205,7 +206,7 @@ public class PadresActivity extends AppCompatActivity {
     /*
     Método para diseñar los cardViews del RecyclerView de padres de confianza
      */
-    private void añadirDatosPCaListas() {
+    private void crearPCModels() {
 
         //comprobacion
         for (int i = 0; i < listaPCIds.size(); i++){
@@ -241,7 +242,7 @@ public class PadresActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String hijo = snapshot.child("hijos").getValue().toString();
                     listaPCHijos.add(hijo);
-                    HijoPC = hijo;
+                    HijoPC = "Padre de " + hijo;
                     listaPCModels.add(new PadresDeConfianzaModel(NombrePC, HijoPC,
                             imageNiño, imageBtnLlamar, imageBtnEliminar));
                 }
@@ -271,7 +272,7 @@ public class PadresActivity extends AppCompatActivity {
                     }
                     //lista correcta
 
-                    añadirDatosPCaListas();
+                    crearPCModels();
 
                 }
             }

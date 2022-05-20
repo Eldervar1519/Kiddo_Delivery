@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teal_200"
     tools:context=".LoginActivity">
 
     <ImageView
@@ -11,6 +12,7 @@
         android:layout_width="348dp"
         android:layout_height="146dp"
         android:layout_marginTop="32dp"
+        android:cropToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +29,7 @@
         android:ems="10"
         android:hint="@string/Email"
         android:inputType="textEmailAddress"
+        android:textColor="#070707"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewIcono" />
@@ -41,6 +44,7 @@
         android:ems="10"
         android:hint="@string/Password"
         android:inputType="textPassword"
+        android:textColor="#070707"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
@@ -103,6 +107,7 @@
         android:layout_marginEnd="32dp"
         android:gravity="center"
         android:text="@string/AunCuenta"
+        android:textColor="#070707"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
@@ -112,7 +117,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="@color/teal_200"
         android:contentDescription="@string/RegistroFacebook"
         android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +131,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="@color/teal_200"
         android:contentDescription="@string/RegistroTwitter"
         android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +146,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="@color/teal_200"
         android:contentDescription="@string/RegistroGoogle"
         android:scaleType="center"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonFacebook"
