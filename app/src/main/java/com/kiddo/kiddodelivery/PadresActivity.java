@@ -2,15 +2,23 @@ package com.kiddo.kiddodelivery;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +39,7 @@ public class PadresActivity extends AppCompatActivity {
     private Button AñadirPadres, Añadir, Cancelar;
     private EditText Mail;
     private String Umail, NombrePC, HijoPC;
+    private ImageButton Llamar, Eliminar;
 
 
     int imageNiño = R.drawable.ic_baseline_child_care_24;
@@ -41,6 +50,7 @@ public class PadresActivity extends AppCompatActivity {
     ArrayList<String> listaPCIds = new ArrayList<>();
     ArrayList<String> listaPCNombreApellido = new ArrayList<>();
     ArrayList<String> listaPCHijos = new ArrayList<>();
+    ArrayList<String> listaPCTlf = new ArrayList<String>();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -55,6 +65,24 @@ public class PadresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_padres);
 
         /*
+        redondear imagen
+         */
+        //extraemos el drawable en un bitmap
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.icono_kiddodelivery);
+        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+
+        //creamos el drawable redondeado
+        RoundedBitmapDrawable roundedDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
+
+        //asignamos el CornerRadius
+        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+
+        ImageView imageView = (ImageView) findViewById(R.id.imageViewIcono);
+
+        imageView.setImageDrawable(roundedDrawable);
+
+        /*
         Inicializamos variables
          */
         AñadirPadres = findViewById(R.id.buttonAñadirPadres);
@@ -62,6 +90,8 @@ public class PadresActivity extends AppCompatActivity {
         Cancelar = findViewById(R.id.buttonCancelar);
         Mail = findViewById(R.id.editTextMailPC);
         RecyclerView RV = findViewById(R.id.recyclerViewPC);
+        Llamar = findViewById(R.id.imageButtonCVLlamar);
+        Eliminar = findViewById(R.id.imageButtonCVEliminar);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
@@ -70,11 +100,6 @@ public class PadresActivity extends AppCompatActivity {
         Creamos modelo RV
          */
         obtenerPCids();
-
-
-
-
-
 
         /*
         Funcionalidad de los botones
@@ -103,6 +128,8 @@ public class PadresActivity extends AppCompatActivity {
                 añadirPC();
             }
         });
+        
+
 
         /*
         Para el RecyclerView...
@@ -219,18 +246,29 @@ public class PadresActivity extends AppCompatActivity {
         for (int i = 0; i < listaPCIds.size(); i++) {
             obtenerPCNombreApellido(listaPCIds.get(i));
             obtenerHijo(listaPCIds.get(i));
+            obtenerTlf(listaPCIds.get(i));
         }
+    }
 
-        //comprobaciones
-        for (int i = 0; i < listaPCNombreApellido.size(); i++){
-            Toast.makeText(PadresActivity.this, listaPCNombreApellido.get(i), Toast.LENGTH_SHORT).show();
-        }
-        for (int i = 0; i < listaPCHijos.size(); i++){
-            Toast.makeText(PadresActivity.this, listaPCHijos.get(i), Toast.LENGTH_SHORT).show();
-        }
+    private void obtenerTlf(String UId) {
 
+        mDatabase.child("usuarios").child(UId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String tlf = snapshot.child("tlf").getValue().toString();
+                    listaPCTlf.add(tlf);
+                    listaPCModels.add(new PadresDeConfianzaModel(NombrePC, HijoPC, tlf,
+                            imageNiño, imageBtnLlamar, imageBtnEliminar));
+                }
 
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PadresActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -243,10 +281,7 @@ public class PadresActivity extends AppCompatActivity {
                     String hijo = snapshot.child("hijos").getValue().toString();
                     listaPCHijos.add(hijo);
                     HijoPC = "Padre de " + hijo;
-                    listaPCModels.add(new PadresDeConfianzaModel(NombrePC, HijoPC,
-                            imageNiño, imageBtnLlamar, imageBtnEliminar));
                 }
-
             }
 
             @Override
@@ -306,6 +341,8 @@ public class PadresActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 
 /*

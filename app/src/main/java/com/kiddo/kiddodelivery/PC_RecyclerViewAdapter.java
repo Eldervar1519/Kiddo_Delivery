@@ -1,14 +1,20 @@
 package com.kiddo.kiddodelivery;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -48,11 +54,44 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
     @Override
     public void onBindViewHolder(@NonNull PC_RecyclerViewAdapter.MyViewHolder holder, int position) {
 
+        /*
+        Relacionamos
+         */
         holder.Nombre.setText(padresDeConfianzaModels.get(position).getNombre());
         holder.Hijo.setText(padresDeConfianzaModels.get(position).getHijos());
+        holder.Tlf.setText(padresDeConfianzaModels.get(position).getTlf());
         holder.imageView.setImageResource(R.drawable.ic_baseline_child_care_24);
         holder.btnLlamar.setImageResource(R.drawable.ic_baseline_phone_forwarded_24);
         holder.btnEliminar.setImageResource(R.drawable.ic_baseline_highlight_off_24);
+
+        /*
+        Damos funcionalidad
+         */
+        holder.btnLlamar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String tlf = holder.Tlf.getText().toString();
+
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+tlf));
+                context.startActivity(i);
+
+                /*
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED);
+                    return;
+
+
+                 */
+            }
+        });
+
+        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 
@@ -69,7 +108,7 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
      */
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView Nombre, Hijo;
+        TextView Nombre, Hijo, Tlf;
         ImageView imageView;
         ImageButton btnLlamar, btnEliminar;
 
@@ -78,6 +117,7 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
 
             Nombre = itemView.findViewById(R.id.textViewCVNombrePC);
             Hijo = itemView.findViewById(R.id.textView2CVHijosPC);
+            Tlf = itemView.findViewById(R.id.textViewCVTlf);
             imageView = itemView.findViewById(R.id.imageViewCVAvatar);
             btnLlamar = itemView.findViewById(R.id.imageButtonCVLlamar);
             btnEliminar = itemView.findViewById(R.id.imageButtonCVEliminar);

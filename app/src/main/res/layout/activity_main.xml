@@ -4,7 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/teal_200"
+    tools:context=".MainActivity"
+    >
+
+    <ImageView
+        android:id="@+id/imageViewIcono"
+        android:layout_width="348dp"
+        android:layout_height="146dp"
+        android:layout_marginTop="32dp"
+        android:cropToPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icono_kiddodelivery"
+        tools:ignore="ContentDescription" />
 
     <Button
         android:id="@+id/buttonPadres"
@@ -35,16 +50,16 @@
     <TextView
         android:id="@+id/textViewBienvenida"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:gravity="center"
         android:textAlignment="center"
-        android:textColor="#F8F6F6"
-        android:textSize="16sp"
+        android:textColor="#050505"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewIcono" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

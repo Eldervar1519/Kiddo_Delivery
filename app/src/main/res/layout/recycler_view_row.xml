@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/teal_200">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -12,7 +13,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardBackgroundColor="@color/teal_200"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,14 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="2dp"
+            android:background="@color/teal_200">
 
             <ImageButton
                 android:id="@+id/imageButtonCVEliminar"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="2dp"
                 android:layout_marginBottom="1dp"
+                android:background="@color/teal_200"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,9 +42,10 @@
 
             <ImageButton
                 android:id="@+id/imageButtonCVLlamar"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="0dp"
                 android:layout_marginBottom="1dp"
+                android:background="@color/teal_200"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageButtonCVEliminar"
                 app:layout_constraintTop_toTopOf="parent"
@@ -55,6 +59,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="1dp"
+                android:background="@color/teal_200"
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="#090909"
@@ -69,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="2dp"
+                android:background="@color/teal_200"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -80,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
+                android:background="@color/teal_200"
                 android:text="TextView"
                 android:textColor="#090909"
                 android:textSize="24sp"
@@ -87,6 +94,15 @@
                 app:layout_constraintEnd_toStartOf="@+id/imageButtonCVLlamar"
                 app:layout_constraintStart_toEndOf="@+id/imageViewCVAvatar"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewCVTlf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:visibility="gone"
+                tools:layout_editor_absoluteX="254dp"
+                tools:layout_editor_absoluteY="15dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
