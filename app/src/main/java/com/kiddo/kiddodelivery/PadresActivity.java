@@ -38,7 +38,7 @@ public class PadresActivity extends AppCompatActivity {
      */
     private Button AñadirPadres, Añadir, Cancelar;
     private EditText Mail;
-    private String Umail, NombrePC, HijoPC;
+    private String Umail, NombrePC, HijoPC, muid;
     private ImageButton Llamar, Eliminar;
 
 
@@ -95,6 +95,7 @@ public class PadresActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
+        muid = mAuth.getCurrentUser().getUid();
 
         /*
         Creamos modelo RV
@@ -258,7 +259,7 @@ public class PadresActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String tlf = snapshot.child("tlf").getValue().toString();
                     listaPCTlf.add(tlf);
-                    listaPCModels.add(new PadresDeConfianzaModel(NombrePC, HijoPC, tlf,
+                    listaPCModels.add(new PadresDeConfianzaModel(NombrePC, HijoPC, tlf, UId, muid,
                             imageNiño, imageBtnLlamar, imageBtnEliminar));
                 }
 
@@ -341,6 +342,18 @@ public class PadresActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*
+    public static void eliminarPC(String pcuid){
+
+        String muid = mAuth.getCurrentUser().getUid();
+
+        mDatabase.child("usuarios").child(muid).child("padresConf").child(pcuid).removeValue();
+        mDatabase.child("usuarios").child(pcuid).child("padresConf").child(muid).removeValue();
+
+    }
+
+     */
 
 
 }

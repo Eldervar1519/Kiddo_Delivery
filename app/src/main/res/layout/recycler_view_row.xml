@@ -103,6 +103,24 @@
                 android:visibility="gone"
                 tools:layout_editor_absoluteX="254dp"
                 tools:layout_editor_absoluteY="15dp" />
+
+            <TextView
+                android:id="@+id/textViewCVUId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:visibility="gone"
+                tools:layout_editor_absoluteX="245dp"
+                tools:layout_editor_absoluteY="14dp" />
+
+            <TextView
+                android:id="@+id/textViewMUId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:visibility="gone"
+                tools:layout_editor_absoluteX="261dp"
+                tools:layout_editor_absoluteY="25dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,9 @@
 package com.kiddo.kiddodelivery;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -17,6 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerViewAdapter.MyViewHolder> {
@@ -27,10 +32,15 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
     Context context;
     ArrayList<PadresDeConfianzaModel> padresDeConfianzaModels;
 
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
+
+
     /*
     Constructor
      */
-    public PC_RecyclerViewAdapter(Context context, ArrayList<PadresDeConfianzaModel> padresDeConfianzaModels){
+    public PC_RecyclerViewAdapter(Context context, ArrayList<PadresDeConfianzaModel> padresDeConfianzaModels) {
         this.context = context;
         this.padresDeConfianzaModels = padresDeConfianzaModels;
     }
@@ -60,6 +70,8 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
         holder.Nombre.setText(padresDeConfianzaModels.get(position).getNombre());
         holder.Hijo.setText(padresDeConfianzaModels.get(position).getHijos());
         holder.Tlf.setText(padresDeConfianzaModels.get(position).getTlf());
+        holder.UId.setText(padresDeConfianzaModels.get(position).getUid());
+        holder.MUId.setText(padresDeConfianzaModels.get(position).getMuid());
         holder.imageView.setImageResource(R.drawable.ic_baseline_child_care_24);
         holder.btnLlamar.setImageResource(R.drawable.ic_baseline_phone_forwarded_24);
         holder.btnEliminar.setImageResource(R.drawable.ic_baseline_highlight_off_24);
@@ -73,16 +85,8 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
 
                 String tlf = holder.Tlf.getText().toString();
 
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+tlf));
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tlf));
                 context.startActivity(i);
-
-                /*
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
-                        != PackageManager.PERMISSION_GRANTED);
-                    return;
-
-
-                 */
             }
         });
 
@@ -90,6 +94,27 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
             @Override
             public void onClick(View view) {
 
+                String pcuid = holder.UId.getText().toString();
+                String muid = holder.MUId.getText().toString();
+
+                AlertDialog.Builder dialogo1 = new AlertDialog.Builder(context);
+                dialogo1.setTitle("Importante");
+                dialogo1.setMessage("¿Desea eliminar este padre de su lista de confianza?");
+                dialogo1.setCancelable(false);
+                dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+
+                        mDatabase.child("usuarios").child(muid).child("padresConf").child(pcuid).removeValue();
+                        mDatabase.child("usuarios").child(pcuid).child("padresConf").child(muid).removeValue();
+
+                    }
+                });
+                dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        dialogo1.dismiss();
+                    }
+                });
+                dialogo1.show();
             }
         });
 
@@ -106,9 +131,9 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
     /*
     Coge las view del archivo recycler_view_layout
      */
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView Nombre, Hijo, Tlf;
+        TextView Nombre, Hijo, Tlf, UId, MUId;
         ImageView imageView;
         ImageButton btnLlamar, btnEliminar;
 
@@ -118,6 +143,8 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
             Nombre = itemView.findViewById(R.id.textViewCVNombrePC);
             Hijo = itemView.findViewById(R.id.textView2CVHijosPC);
             Tlf = itemView.findViewById(R.id.textViewCVTlf);
+            UId = itemView.findViewById(R.id.textViewCVUId);
+            MUId = itemView.findViewById(R.id.textViewMUId);
             imageView = itemView.findViewById(R.id.imageViewCVAvatar);
             btnLlamar = itemView.findViewById(R.id.imageButtonCVLlamar);
             btnEliminar = itemView.findViewById(R.id.imageButtonCVEliminar);
