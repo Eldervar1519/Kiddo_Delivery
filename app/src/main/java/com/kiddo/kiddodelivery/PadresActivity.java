@@ -1,5 +1,7 @@
 package com.kiddo.kiddodelivery;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
@@ -7,6 +9,8 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -63,6 +67,8 @@ public class PadresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_padres);
+
+        Toast.makeText(this, "Creandose de nuevo", Toast.LENGTH_SHORT).show();
 
         /*
         redondear imagen
@@ -180,10 +186,27 @@ public class PadresActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "Padres añadidos!", Toast.LENGTH_SHORT).show();
 
+                Mail.setText("");
+
                 Añadir.setVisibility(View.GONE);
                 Cancelar.setVisibility(View.GONE);
                 Mail.setVisibility(View.GONE);
                 AñadirPadres.setVisibility(View.VISIBLE);
+
+                Usuario.listaUsuarios.clear();
+
+                triggerRebirth(PadresActivity.this, PadresActivity.class);
+
+                //recreate();
+
+                /*
+
+
+
+                 */
+
+
+
             }
         } else
             Toast.makeText(this, "Introduce un mail válido", Toast.LENGTH_SHORT).show();
@@ -236,10 +259,7 @@ public class PadresActivity extends AppCompatActivity {
      */
     private void crearPCModels() {
 
-        //comprobacion
-        for (int i = 0; i < listaPCIds.size(); i++){
-            Toast.makeText(PadresActivity.this, listaPCIds.get(i), Toast.LENGTH_SHORT).show();
-        }
+
 
         //lista correcta
 
@@ -261,6 +281,10 @@ public class PadresActivity extends AppCompatActivity {
                     listaPCTlf.add(tlf);
                     listaPCModels.add(new PadresDeConfianzaModel(NombrePC, HijoPC, tlf, UId, muid,
                             imageNiño, imageBtnLlamar, imageBtnEliminar));
+                    listaPCTlf.clear();
+                    listaPCHijos.clear();
+                    listaPCNombreApellido.clear();
+                    listaPCIds.clear();
                 }
 
             }
@@ -343,17 +367,17 @@ public class PadresActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    public static void eliminarPC(String pcuid){
-
-        String muid = mAuth.getCurrentUser().getUid();
-
-        mDatabase.child("usuarios").child(muid).child("padresConf").child(pcuid).removeValue();
-        mDatabase.child("usuarios").child(pcuid).child("padresConf").child(muid).removeValue();
-
+    public static void triggerRebirth(Context context, Class<PadresActivity> nextIntent) {
+        Intent intent = new Intent(context, PadresActivity.class);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+        //intent.putExtra(KEY_RESTART_INTENT, nextIntent);
+        context.startActivity(intent);
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
+        Runtime.getRuntime().exit(0);
     }
 
-     */
 
 
 }

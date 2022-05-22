@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -32,9 +33,7 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
     Context context;
     ArrayList<PadresDeConfianzaModel> padresDeConfianzaModels;
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-    private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
+
 
 
     /*
@@ -104,8 +103,17 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
                 dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
 
+                        FirebaseAuth mAuth;
+                        DatabaseReference mDatabase;
+                        final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
+
+                        mAuth = FirebaseAuth.getInstance();
+                        mDatabase = FirebaseDatabase.getInstance(URL).getReference();
+
                         mDatabase.child("usuarios").child(muid).child("padresConf").child(pcuid).removeValue();
                         mDatabase.child("usuarios").child(pcuid).child("padresConf").child(muid).removeValue();
+
+                        removeItem(position);
 
                     }
                 });
@@ -150,4 +158,11 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
             btnEliminar = itemView.findViewById(R.id.imageButtonCVEliminar);
         }
     }
+
+    public void removeItem(int pos){
+        padresDeConfianzaModels.remove(pos);
+        notifyItemRemoved(pos);
+    }
+
+
 }
