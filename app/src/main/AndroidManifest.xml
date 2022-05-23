@@ -3,8 +3,7 @@
     package="com.kiddo.kiddodelivery">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +11,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.KiddoDelivery">
+        <activity
+            android:name=".NuevoEventoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EventosActivity"
+            android:exported="false" />
         <activity
             android:name=".PadresActivity"
             android:exported="false" />

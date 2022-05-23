@@ -29,6 +29,14 @@
     <string name="Añadir">Añadir</string>
     <string name="Cancelar">Cancelar</string>
     <string name="Nombre_hijos">¿Cómo se llaman tus hijos?</string>
+    <string name="Eventos">Eventos</string>
+    <string name="TituloEvento">Título del Evento</string>
+    <string name="Direccion">Dirección</string>
+    <string name="HoraInicio">Hora de inicio</string>
+    <string name="HoraFin">Hora de fin</string>
+    <string name="AvisarPC">Avisar a padres confianza</string>
+    <string name="NuevoEvento">Nuevo Evento</string>
+    <string name="CrearEvento">Crear Evento</string>
     <string name="facebook_app_id">1234</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">56789</string>

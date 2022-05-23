@@ -197,13 +197,7 @@ public class PadresActivity extends AppCompatActivity {
 
                 triggerRebirth(PadresActivity.this, PadresActivity.class);
 
-                //recreate();
 
-                /*
-
-
-
-                 */
 
 
 

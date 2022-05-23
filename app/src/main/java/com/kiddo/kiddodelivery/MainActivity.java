@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Button SignOut;
     private TextView Bienvenida;
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app";
-    private Button Padres;
+    private Button Padres, Eventos;
     private String UId;
     private Button Hijos;
 
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         Bienvenida = findViewById(R.id.textViewBienvenida);
         Padres = findViewById(R.id.buttonPadres);
         Hijos = findViewById(R.id.itemHijos);
+        Eventos = findViewById(R.id.buttonEventos);
 
         UId = mAuth.getCurrentUser().getUid();
 
@@ -99,6 +100,17 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
+            }
+        });
+
+        /*
+        Funcionalidad botón eventos
+         */
+        Eventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, EventosActivity.class);
+                startActivity(i);
             }
         });
         
