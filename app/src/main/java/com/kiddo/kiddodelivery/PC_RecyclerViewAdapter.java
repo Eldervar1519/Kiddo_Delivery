@@ -33,9 +33,6 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
     Context context;
     ArrayList<PadresDeConfianzaModel> padresDeConfianzaModels;
 
-
-
-
     /*
     Constructor
      */
@@ -159,6 +156,9 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
         }
     }
 
+    /*
+    Método para eliminar PC
+     */
     public void removeItem(int pos){
         padresDeConfianzaModels.remove(pos);
         notifyItemRemoved(pos);

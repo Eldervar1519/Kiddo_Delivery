@@ -1,5 +1,7 @@
 package com.kiddo.kiddodelivery;
 
+import java.util.Objects;
+
 public class PadresDeConfianzaModel {
 
     String nombre, hijos, tlf, uid, muid;
