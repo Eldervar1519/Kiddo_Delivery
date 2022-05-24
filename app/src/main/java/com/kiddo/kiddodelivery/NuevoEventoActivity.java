@@ -124,12 +124,16 @@ public class NuevoEventoActivity extends AppCompatActivity {
                 Validaciones
                  */
                 if (!titulo.isEmpty() && !direccion.isEmpty() && !inicio.isEmpty() && !fin.isEmpty()){
+                    
+                    if (inicio.contains(":") && inicio.length() == 5 && fin.contains(":") && fin.length() == 5) {
 
-                    if (PConoff.isChecked())
-                        añadirEventoPC();
-                    else
-                        añadirMiEvento();
-
+                        if (PConoff.isChecked())
+                            añadirEventoPC();
+                        else
+                            añadirMiEvento();
+                        
+                    }else
+                        Toast.makeText(NuevoEventoActivity.this, "La hora debe estar en formato hh:mm", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(NuevoEventoActivity.this, "Rellene todos los campos", Toast.LENGTH_SHORT).show();
             }
