@@ -22,9 +22,13 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +39,8 @@ public class NuevoEventoActivity extends AppCompatActivity {
     private Switch PConoff;
     private Button Crear;
 
-    private String titulo, direccion, inicio, fin, fecha;
+    private String titulo, direccion, inicio, fin, fecha, eventoID;
+    private ArrayList<String> listaPCIds = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -79,6 +84,11 @@ public class NuevoEventoActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
+
+        /*
+        Obtenemos UIDs de PC
+         */
+        obtenerPCids();
 
 
         /*
@@ -153,6 +163,76 @@ public class NuevoEventoActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    Método para añadir el evento a todos los PC
+     */
     private void añadirEventoPC() {
+
+        String uid = mAuth.getCurrentUser().getUid();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("titulo", titulo);
+        map.put("direccion", direccion);
+        map.put("fecha", fecha);
+        map.put("inicio", inicio);
+        map.put("fin", fin);
+
+        mDatabase.child("usuarios").child(uid).child("eventos").push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+
+                    mDatabase.child("usuarios").child(uid).child("eventos").limitToLast(1).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot child : snapshot.getChildren()) {
+
+                                    eventoID = child.getKey();
+
+                                    for (int i = 0; i < listaPCIds.size(); i++)
+                                        mDatabase.child("usuarios").child(listaPCIds.get(i)).child("eventos").child(eventoID).setValue(map);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(NuevoEventoActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    Toast.makeText(NuevoEventoActivity.this, "Nuevo evento registrado", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(NuevoEventoActivity.this, MainActivity.class));
+                    finish();
+
+                }else
+                    Toast.makeText(NuevoEventoActivity.this, "Error al crear evento", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /*
+    Método para obtener los UIds de los padres de confianza
+     */
+    private void obtenerPCids() {
+
+        String Uid = mAuth.getCurrentUser().getUid();
+
+        mDatabase.child("usuarios").child(Uid).child("padresConf").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        listaPCIds.add(child.getKey());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(NuevoEventoActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
