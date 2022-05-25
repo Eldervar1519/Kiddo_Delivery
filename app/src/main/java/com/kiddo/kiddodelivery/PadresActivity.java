@@ -45,7 +45,6 @@ public class PadresActivity extends AppCompatActivity {
     private String Umail, NombrePC, HijoPC, muid;
     private ImageButton Llamar, Eliminar;
 
-
     int imageNiño = R.drawable.ic_baseline_child_care_24;
     int imageBtnLlamar = R.drawable.ic_baseline_phone_forwarded_24;
     int imageBtnEliminar = R.drawable.ic_baseline_highlight_off_24;
@@ -59,9 +58,6 @@ public class PadresActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,13 +131,10 @@ public class PadresActivity extends AppCompatActivity {
                 añadirPC();
             }
         });
-        
-
 
         /*
         Para el RecyclerView...
          */
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -150,13 +143,6 @@ public class PadresActivity extends AppCompatActivity {
                 RV.setLayoutManager(new LinearLayoutManager(PadresActivity.this));
             }
         }, 1000);
-
-
-
-
-
-
-
     }
 
     /*
@@ -196,10 +182,6 @@ public class PadresActivity extends AppCompatActivity {
                 Usuario.listaUsuarios.clear();
 
                 triggerRebirth(PadresActivity.this, PadresActivity.class);
-
-
-
-
 
             }
         } else
@@ -253,11 +235,6 @@ public class PadresActivity extends AppCompatActivity {
      */
     private void crearPCModels() {
 
-
-
-        //lista correcta
-
-
         for (int i = 0; i < listaPCIds.size(); i++) {
             obtenerPCNombreApellido(listaPCIds.get(i));
             obtenerHijo(listaPCIds.get(i));
@@ -265,6 +242,9 @@ public class PadresActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    Método para obtener tlf
+     */
     private void obtenerTlf(String UId) {
 
         mDatabase.child("usuarios").child(UId).addValueEventListener(new ValueEventListener() {
@@ -280,7 +260,6 @@ public class PadresActivity extends AppCompatActivity {
                     listaPCNombreApellido.clear();
                     listaPCIds.clear();
                 }
-
             }
 
             @Override
@@ -288,9 +267,11 @@ public class PadresActivity extends AppCompatActivity {
                 Toast.makeText(PadresActivity.this, "Error BD", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
+    /*
+    Método para obtener hijos
+     */
     private void obtenerHijo(String UId) {
 
         mDatabase.child("usuarios").child(UId).addValueEventListener(new ValueEventListener() {
@@ -324,7 +305,6 @@ public class PadresActivity extends AppCompatActivity {
                     for (DataSnapshot child : snapshot.getChildren()) {
                         listaPCIds.add(child.getKey());
                     }
-                    //lista correcta
 
                     crearPCModels();
 
@@ -361,19 +341,20 @@ public class PadresActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    Método para reiniar app
+     */
     public static void triggerRebirth(Context context, Class<PadresActivity> nextIntent) {
+
         Intent intent = new Intent(context, PadresActivity.class);
         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-        //intent.putExtra(KEY_RESTART_INTENT, nextIntent);
         context.startActivity(intent);
-        if (context instanceof Activity) {
+
+        if (context instanceof Activity)
             ((Activity) context).finish();
-        }
+
         Runtime.getRuntime().exit(0);
     }
-
-
-
 }
 
 /*
