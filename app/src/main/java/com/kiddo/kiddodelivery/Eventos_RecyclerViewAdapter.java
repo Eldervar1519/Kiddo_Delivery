@@ -3,6 +3,8 @@ package com.kiddo.kiddodelivery;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -214,6 +216,23 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
                 });
 
                 dialogo1.show();
+            }
+        });
+
+        /*
+        Botón navegación
+         */
+        holder.Mapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String direccion = holder.Direccion.getText().toString();
+
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + direccion);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                context.startActivity(mapIntent);
+
             }
         });
     }
