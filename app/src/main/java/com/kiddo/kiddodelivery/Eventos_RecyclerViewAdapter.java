@@ -75,7 +75,7 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
         holder.FechaHora.setText(listaEventosModels.get(position).getFechaHora());
         holder.Direccion.setText(listaEventosModels.get(position).getDireccion());
         holder.ID.setText(listaEventosModels.get(position).getId());
-        holder.AvatarCoche.setImageResource(R.drawable.ic_baseline_directions_car_24);
+        holder.Asistentes.setImageResource(R.drawable.ic_baseline_person_search_24);
         holder.Eliminar.setImageResource(R.drawable.ic_baseline_highlight_off_24);
         holder.Mapa.setImageResource(R.drawable.ic_baseline_map_24);
         holder.Notificacion.setImageResource(R.drawable.ic_baseline_notification_important_24);
@@ -251,8 +251,7 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView Titulo, FechaHora, Direccion, ID;
-        ImageView AvatarCoche;
-        ImageButton Eliminar, Notificacion, Mapa;
+        ImageButton Eliminar, Notificacion, Mapa, Asistentes;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -261,7 +260,7 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
             FechaHora = itemView.findViewById(R.id.textViewCV2HoraEvento);
             Direccion = itemView.findViewById(R.id.textViewCV2Direccion);
             ID = itemView.findViewById(R.id.textViewCV2ID);
-            AvatarCoche = itemView.findViewById(R.id.imageViewCV2AvatarCoche);
+            Asistentes = itemView.findViewById(R.id.imageButtonAsistentes);
             Eliminar = itemView.findViewById(R.id.imageButtonEventosEliminar);
             Notificacion = itemView.findViewById(R.id.imageButtonCV2Notificacion);
             Mapa = itemView.findViewById(R.id.imageButtonCV2Map);

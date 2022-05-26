@@ -3,15 +3,15 @@ package com.kiddo.kiddodelivery;
 public class EventosModel {
 
     String titulo, fechaHora, direccion, id;
-    int imageIcono, imagebtnNotificacion, imagebtnEliminar, imagebtnMap;
+    int imagebtnAsistentes, imagebtnNotificacion, imagebtnEliminar, imagebtnMap;
 
-    public EventosModel(String titulo, String fechaHora, String direccion, String id, int imageIcono,
+    public EventosModel(String titulo, String fechaHora, String direccion, String id, int imagebtnAsistentes,
                         int imagebtnNotificacion, int imagebtnEliminar, int imagebtnMap) {
         this.titulo = titulo;
         this.fechaHora = fechaHora;
         this.direccion = direccion;
         this.id = id;
-        this.imageIcono = imageIcono;
+        this.imagebtnAsistentes = imagebtnAsistentes;
         this.imagebtnNotificacion = imagebtnNotificacion;
         this.imagebtnEliminar = imagebtnEliminar;
         this.imagebtnMap = imagebtnMap;
@@ -33,8 +33,8 @@ public class EventosModel {
         return id;
     }
 
-    public int getImageIcono() {
-        return imageIcono;
+    public int getImagebtnAsistentes() {
+        return imagebtnAsistentes;
     }
 
     public int getImagebtnNotificacion() {
@@ -56,7 +56,7 @@ public class EventosModel {
                 ", fechaHora='" + fechaHora + '\'' +
                 ", direccion='" + direccion + '\'' +
                 ", id='" + id + '\'' +
-                ", imageIcono=" + imageIcono +
+                ", imageIcono=" + imagebtnAsistentes +
                 ", imagebtnNotificacion=" + imagebtnNotificacion +
                 ", imagebtnEliminar=" + imagebtnEliminar +
                 ", imagebtnMap=" + imagebtnMap +
