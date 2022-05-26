@@ -1,15 +1,26 @@
 package com.kiddo.kiddodelivery;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -20,6 +31,13 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
      */
     Context context;
     static ArrayList<EventosModel> listaEventosModels = new ArrayList<>();
+
+    final String[] opcion = {"Tengo hueco", "Necesito un favor", "Voy completo"};
+    int opcionSeleccionada;
+
+    FirebaseAuth mAuth;
+    DatabaseReference mDatabase;
+    final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
 
     /*
     Constructor
@@ -61,9 +79,143 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
         holder.Notificacion.setImageResource(R.drawable.ic_baseline_notification_important_24);
 
         /*
+        Comprobamos si ya tiene confirmado el evento
+         */
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance(URL).getReference();
+        String uid = mAuth.getCurrentUser().getUid();
+        String idEvento = holder.ID.getText().toString();
+
+        mDatabase.child("usuarios").child(uid).child("eventos").child(idEvento).child("confirmacion")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+
+                            holder.Notificacion.setVisibility(View.GONE);
+                            holder.Mapa.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(context, "Error BD", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+        /*
         Funcionalidad botones
          */
 
+        /*
+        Btn Eliminar Evento
+         */
+        holder.Eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder dialogo1 = new AlertDialog.Builder(context);
+                dialogo1.setTitle("Importante");
+                dialogo1.setMessage("¿Desea eliminar este evento?");
+                dialogo1.setCancelable(false);
+                dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+
+                        FirebaseAuth mAuth;
+                        DatabaseReference mDatabase;
+                        final String URL = "https://kiddodelivery-7e28a-default-rtdb.europe-west1.firebasedatabase.app/";
+
+                        mAuth = FirebaseAuth.getInstance();
+                        mDatabase = FirebaseDatabase.getInstance(URL).getReference();
+                        String uid = mAuth.getCurrentUser().getUid();
+                        String idEvento = holder.ID.getText().toString();
+
+                        mDatabase.child("usuarios").child(uid).child("eventos").child(idEvento).removeValue();
+
+                        removeItem(position);
+                    }
+                });
+
+                dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        dialogo1.dismiss();
+                    }
+                });
+
+                dialogo1.show();
+            }
+        });
+
+        /*
+        Btn notificación
+         */
+        holder.Notificacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder dialogo1 = new AlertDialog.Builder(context);
+                dialogo1.setTitle("Importante");
+                dialogo1.setMessage("¿Confirma su asistencia a este evento?");
+                dialogo1.setCancelable(false);
+                dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+
+                        dialogo1.dismiss();
+                        AlertDialog.Builder dialogo2 = new AlertDialog.Builder(context);
+                        dialogo2.setTitle("Seleccione una opción:");
+                        dialogo2.setCancelable(false);
+                        dialogo2.setSingleChoiceItems(opcion, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                opcionSeleccionada = i;
+                            }
+                        });
+
+                        mAuth = FirebaseAuth.getInstance();
+                        mDatabase = FirebaseDatabase.getInstance(URL).getReference();
+                        String uid = mAuth.getCurrentUser().getUid();
+                        String idEvento = holder.ID.getText().toString();
+
+                        dialogo2.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                if (opcionSeleccionada == 0)
+                                    mDatabase.child("usuarios").child(uid).child("eventos").child(idEvento)
+                                            .child("confirmacion").setValue("hueco");
+
+                                else if (opcionSeleccionada == 1)
+                                    mDatabase.child("usuarios").child(uid).child("eventos").child(idEvento)
+                                            .child("confirmacion").setValue("favor");
+
+                                else
+                                    mDatabase.child("usuarios").child(uid).child("eventos").child(idEvento)
+                                            .child("confirmacion").setValue("completo");
+
+                            }
+                        });
+
+                        dialogo2.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogo2, int id) {
+                                dialogo2.dismiss();
+                            }
+                        });
+
+                        dialogo2.show();
+                    }
+                });
+
+                dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        dialogo1.dismiss();
+                    }
+                });
+
+                dialogo1.show();
+            }
+        });
     }
 
     /*

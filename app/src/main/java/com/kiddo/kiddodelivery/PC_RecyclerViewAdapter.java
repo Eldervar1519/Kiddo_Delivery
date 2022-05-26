@@ -75,6 +75,10 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
         /*
         Damos funcionalidad
          */
+
+        /*
+        Btn llamar Pc
+         */
         holder.btnLlamar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +90,9 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
             }
         });
 
+        /*
+        Btn eliminar Pc
+         */
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,7 +164,7 @@ public class PC_RecyclerViewAdapter extends RecyclerView.Adapter<PC_RecyclerView
     }
 
     /*
-    Método para eliminar PC
+    Método para eliminar PC de RV
      */
     public void removeItem(int pos){
         padresDeConfianzaModels.remove(pos);

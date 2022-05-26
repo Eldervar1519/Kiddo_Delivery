@@ -44,6 +44,8 @@ public class EventosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eventos);
 
+        Eventos_RecyclerViewAdapter.listaEventosModels.clear();
+
         /*
         redondear imagen
          */
