@@ -48,4 +48,18 @@ public class EventosModel {
     public int getImagebtnMap() {
         return imagebtnMap;
     }
+
+    @Override
+    public String toString() {
+        return "EventosModel{" +
+                "titulo='" + titulo + '\'' +
+                ", fechaHora='" + fechaHora + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", id='" + id + '\'' +
+                ", imageIcono=" + imageIcono +
+                ", imagebtnNotificacion=" + imagebtnNotificacion +
+                ", imagebtnEliminar=" + imagebtnEliminar +
+                ", imagebtnMap=" + imagebtnMap +
+                '}';
+    }
 }

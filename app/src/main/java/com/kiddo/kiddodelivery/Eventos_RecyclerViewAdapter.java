@@ -19,14 +19,14 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
     Declaraciones
      */
     Context context;
-    ArrayList<EventosModel> listaEventosModels;
+    static ArrayList<EventosModel> listaEventosModels = new ArrayList<>();
 
     /*
     Constructor
      */
-    public Eventos_RecyclerViewAdapter(Context context, ArrayList<EventosModel> listaEventosModel) {
+    public Eventos_RecyclerViewAdapter(Context context, ArrayList<EventosModel> listaEventosModels) {
         this.context = context;
-        this.listaEventosModels = listaEventosModel;
+        this.listaEventosModels = listaEventosModels;
     }
 
     @NonNull

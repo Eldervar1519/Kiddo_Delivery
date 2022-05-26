@@ -34,8 +34,6 @@ public class EventosActivity extends AppCompatActivity {
     int imageIcono, imagebtnNotificacion, imagebtnEliminar, imagebtnMap;
 
     private ArrayList<String> listaEventosIds = new ArrayList<>();
-    private ArrayList<Evento> listaEventos = new ArrayList<>();
-    private ArrayList<EventosModel> listaEventosModels = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -67,6 +65,7 @@ public class EventosActivity extends AppCompatActivity {
         Relacionamos/instanciamos
          */
         NuevoEvento = findViewById(R.id.buttonNuevoEvento);
+        RVEventos = findViewById(R.id.RecyclerViewEvents);
 
         imageIcono = R.drawable.ic_baseline_directions_car_24;
         imagebtnNotificacion = R.drawable.ic_baseline_notification_important_24;
@@ -90,22 +89,22 @@ public class EventosActivity extends AppCompatActivity {
         /*
         Para el RecyvlerView...
          */
-        construirEventosModels();
+        construirEventos();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Eventos_RecyclerViewAdapter adapter = new Eventos_RecyclerViewAdapter(EventosActivity.this, listaEventosModels);
+                Eventos_RecyclerViewAdapter adapter = new Eventos_RecyclerViewAdapter(EventosActivity.this, Eventos_RecyclerViewAdapter.listaEventosModels);
                 RVEventos.setAdapter(adapter);
                 RVEventos.setLayoutManager(new LinearLayoutManager(EventosActivity.this));
             }
-        }, 10000);
+        }, 2000);
     }
 
     /*
     Método para construir EventosModels
      */
-    private void construirEventosModels() {
+    private void construirEventos() {
 
         String Uid = mAuth.getCurrentUser().getUid();
 
@@ -130,23 +129,18 @@ public class EventosActivity extends AppCompatActivity {
                                     String fin = snapshot.child("fin").getValue().toString();
                                     String id = snapshot.getKey();
 
-                                    listaEventos.add(new Evento(titulo, direccion, fecha, inicio, fin, id));
+                                    String fechaHora = fecha + " " +
+                                            inicio + "-" +
+                                            fin;
 
-                                    for (int i = 0; i < listaEventos.size(); i++){
-
-                                        String fechaHora = listaEventos.get(i).getFecha() + " " +
-                                                listaEventos.get(i).getInicio() + "-" +
-                                                listaEventos.get(i).getFin();
-
-                                        listaEventosModels.add(new EventosModel(listaEventos.get(i).getTitulo(),
-                                                fechaHora,
-                                                listaEventos.get(i).getDireccion(),
-                                                listaEventos.get(i).getId(),
-                                                imageIcono,
-                                                imagebtnNotificacion,
-                                                imagebtnEliminar,
-                                                imagebtnMap));
-                                    }
+                                    Eventos_RecyclerViewAdapter.listaEventosModels.add(new EventosModel(titulo,
+                                            fechaHora,
+                                            direccion,
+                                            id,
+                                            imageIcono,
+                                            imagebtnNotificacion,
+                                            imagebtnEliminar,
+                                            imagebtnMap));
                                 }
                             }
 
