@@ -147,18 +147,24 @@ public class NuevoEventoActivity extends AppCompatActivity {
 
         String uid = mAuth.getCurrentUser().getUid();
 
+        String key = mDatabase.child("usuarios").child(uid).child("eventos").push().getKey();
+
         Map<String, Object> map = new HashMap<>();
         map.put("titulo", titulo);
         map.put("direccion", direccion);
         map.put("fecha", fecha);
         map.put("inicio", inicio);
         map.put("fin", fin);
+        map.put("id", key);
 
-        mDatabase.child("usuarios").child(uid).child("eventos").push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("usuarios").child(uid).child("eventos").child(key).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(NuevoEventoActivity.this, "Nuevo evento registrado", Toast.LENGTH_SHORT).show();
+
+                    mDatabase.child("usuarios").child(uid).child("eventos").child(key).child("id").setValue(key);
+
                     startActivity(new Intent(NuevoEventoActivity.this, MainActivity.class));
                     finish();
                 }else
@@ -174,14 +180,17 @@ public class NuevoEventoActivity extends AppCompatActivity {
 
         String uid = mAuth.getCurrentUser().getUid();
 
+        String key = mDatabase.child("usuarios").child(uid).child("eventos").push().getKey();
+
         Map<String, Object> map = new HashMap<>();
         map.put("titulo", titulo);
         map.put("direccion", direccion);
         map.put("fecha", fecha);
         map.put("inicio", inicio);
         map.put("fin", fin);
+        map.put("id", key);
 
-        mDatabase.child("usuarios").child(uid).child("eventos").push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.child("usuarios").child(uid).child("eventos").child(key).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){

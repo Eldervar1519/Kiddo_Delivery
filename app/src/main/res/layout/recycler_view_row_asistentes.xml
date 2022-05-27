@@ -28,33 +28,9 @@
             android:layout_marginBottom="2dp"
             android:background="@color/teal_200">
 
-            <ImageButton
-                android:id="@+id/imageButtonEventosEliminar"
-                android:layout_width="45dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/teal_200"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_highlight_off_24" />
-
-            <ImageButton
-                android:id="@+id/imageButtonCV2Notificacion"
-                android:layout_width="45dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/teal_200"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButtonCV3Conf"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_baseline_notification_important_24" />
-
             <TextView
-                android:id="@+id/textViewCV2HoraEvento"
-                android:layout_width="0dp"
+                android:id="@+id/textViewCV3HijoPC"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="2dp"
@@ -65,28 +41,27 @@
                 android:textColor="#090909"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButtonCV2Notificacion"
+                app:layout_constraintEnd_toStartOf="@+id/textViewCV3Confirmacion"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCV2TituloEvento" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewCV3NombrePC" />
 
             <TextView
-                android:id="@+id/textViewCV2TituloEvento"
+                android:id="@+id/textViewCV3NombrePC"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginEnd="2dp"
                 android:background="@color/teal_200"
                 android:text="TextView"
                 android:textColor="#090909"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/imageButtonCV2Notificacion"
+                app:layout_constraintEnd_toStartOf="@+id/imageButtonCV3Mapa"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewCV2Direccion"
+                android:id="@+id/textViewCV3IDEvento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
@@ -94,21 +69,8 @@
                 tools:layout_editor_absoluteX="254dp"
                 tools:layout_editor_absoluteY="15dp" />
 
-            <ImageButton
-                android:id="@+id/imageButtonCV2Map"
-                android:layout_width="50dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/teal_200"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/imageButtonCV2Notificacion"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_baseline_map_24" />
-
             <TextView
-                android:id="@+id/textViewCV2ID"
+                android:id="@+id/textViewCV3IDPC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
@@ -120,13 +82,35 @@
                 android:id="@+id/imageButtonCV3Conf"
                 android:layout_width="45dp"
                 android:layout_height="0dp"
+                android:layout_marginEnd="2dp"
                 android:layout_marginBottom="1dp"
                 android:background="@color/teal_200"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButtonEventosEliminar"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_baseline_person_search_24" />
+                app:srcCompat="@drawable/ic_baseline_group_add_24" />
+
+            <TextView
+                android:id="@+id/textViewCV3Confirmacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toStartOf="@+id/imageButtonCV3Mapa"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCV3NombrePC" />
+
+            <ImageButton
+                android:id="@+id/imageButtonCV3Mapa"
+                android:layout_width="45dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/teal_200"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageButtonCV3Conf"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_map_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

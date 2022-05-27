@@ -64,7 +64,7 @@ public class PadresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_padres);
 
-        Toast.makeText(this, "Creandose de nuevo", Toast.LENGTH_SHORT).show();
+        Usuario.listaUsuarios.clear(); //comprobar
 
         /*
         redondear imagen

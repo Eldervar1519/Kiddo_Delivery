@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,9 +66,6 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
     @Override
     public void onBindViewHolder(@NonNull Eventos_RecyclerViewAdapter.MyViewHolder holder, int position) {
 
-        /*
-        Relacionamos
-         */
         holder.Titulo.setText(listaEventosModels.get(position).getTitulo());
         holder.FechaHora.setText(listaEventosModels.get(position).getFechaHora());
         holder.Direccion.setText(listaEventosModels.get(position).getDireccion());
@@ -235,6 +230,19 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
 
             }
         });
+
+        /*
+        Botón asistentes
+         */
+        holder.Asistentes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AsistentesActivity.IdEvento = holder.ID.getText().toString();
+
+                Intent i = new Intent(context, AsistentesActivity.class);
+                context.startActivity(i);
+            }
+        });
     }
 
     /*
@@ -246,7 +254,7 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
     }
 
     /*
-    Clase estática, coje las view del layout RV_row_events
+    Clase estática, coje las view del layout RV_row_events, relacionamos
      */
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
@@ -260,7 +268,7 @@ public class Eventos_RecyclerViewAdapter extends RecyclerView.Adapter<Eventos_Re
             FechaHora = itemView.findViewById(R.id.textViewCV2HoraEvento);
             Direccion = itemView.findViewById(R.id.textViewCV2Direccion);
             ID = itemView.findViewById(R.id.textViewCV2ID);
-            Asistentes = itemView.findViewById(R.id.imageButtonAsistentes);
+            Asistentes = itemView.findViewById(R.id.imageButtonCV3Conf);
             Eliminar = itemView.findViewById(R.id.imageButtonEventosEliminar);
             Notificacion = itemView.findViewById(R.id.imageButtonCV2Notificacion);
             Mapa = itemView.findViewById(R.id.imageButtonCV2Map);

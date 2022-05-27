@@ -100,7 +100,7 @@ public class EventosActivity extends AppCompatActivity {
                 RVEventos.setAdapter(adapter);
                 RVEventos.setLayoutManager(new LinearLayoutManager(EventosActivity.this));
             }
-        }, 2000);
+        }, 1000);
     }
 
     /*
