@@ -33,7 +33,7 @@ public class EventosActivity extends AppCompatActivity {
     private RecyclerView RVEventos;
     int imageIcono, imagebtnNotificacion, imagebtnEliminar, imagebtnMap;
 
-    private ArrayList<String> listaEventosIds = new ArrayList<>();
+    private final ArrayList<String> listaEventosIds = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -59,7 +59,7 @@ public class EventosActivity extends AppCompatActivity {
 
         //asignamos el CornerRadius
         roundedDrawable.setCornerRadius(originalBitmap.getHeight());
-        ImageView imageView = (ImageView) findViewById(R.id.imageViewIcono);
+        ImageView imageView = findViewById(R.id.imageViewIcono);
         imageView.setImageDrawable(roundedDrawable);
 
 

@@ -40,7 +40,7 @@ public class NuevoEventoActivity extends AppCompatActivity {
     private Button Crear;
 
     private String titulo, direccion, inicio, fin, fecha, eventoID;
-    private ArrayList<String> listaPCIds = new ArrayList<>();
+    private final ArrayList<String> listaPCIds = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -67,7 +67,7 @@ public class NuevoEventoActivity extends AppCompatActivity {
         //asignamos el CornerRadius
         roundedDrawable.setCornerRadius(originalBitmap.getHeight());
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageViewIcono);
+        ImageView imageView = findViewById(R.id.imageViewIcono);
 
         imageView.setImageDrawable(roundedDrawable);
 

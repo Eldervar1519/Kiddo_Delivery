@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class AsistentesActivity extends AppCompatActivity {
     private RecyclerView RVAsistentes;
     private int imagebtnConfirmacion, imagebtnMap;
     static String IdEvento = "";
+    ArrayList<String> listaAsistentes = new ArrayList<>();
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -52,7 +55,7 @@ public class AsistentesActivity extends AppCompatActivity {
 
         //asignamos el CornerRadius
         roundedDrawable.setCornerRadius(originalBitmap.getHeight());
-        ImageView imageView = (ImageView) findViewById(R.id.imageViewIcono);
+        ImageView imageView = findViewById(R.id.imageViewIcono);
         imageView.setImageDrawable(roundedDrawable);
 
         /*
@@ -64,6 +67,8 @@ public class AsistentesActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance(URL).getReference();
+
+        Toast.makeText(this, IdEvento, Toast.LENGTH_SHORT).show();
 
         /*
         Para el RecyclerView...
@@ -82,25 +87,60 @@ public class AsistentesActivity extends AppCompatActivity {
     private void construirAsistentes(){
 
         String uid = mAuth.getCurrentUser().getUid();
-        ArrayList<String> listaAsistentes = new ArrayList<>();
 
-        mDatabase.child("usuarios").child("eventos")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+        ArrayList<String> listaIdsUsuarios = new ArrayList<>();
+
+        mDatabase.child("usuarios").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot child : snapshot.getChildren())
-                    listaAsistentes.add(child.getKey());
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    listaIdsUsuarios.add(child.getKey());
                 }
+                
+                
+
+
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AsistentesActivity.this, "No se encontraron coincidencias", Toast.LENGTH_SHORT).show();
+
             }
         });
 
-        Toast.makeText(this, "se ejecuta", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Se ejecuta", Toast.LENGTH_SHORT).show();
+
+
+        for (int i = 0; i < listaIdsUsuarios.size(); i++){
+
+            Toast.makeText(this, listaIdsUsuarios.get(i), Toast.LENGTH_SHORT).show();
+            
+            mDatabase.child("usuarios").child(listaIdsUsuarios.get(i)).child("eventos")
+                    .orderByChild("id").equalTo(IdEvento).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()){
+                        Toast.makeText(AsistentesActivity.this, "Existe", Toast.LENGTH_SHORT).show();
+                    }else
+                        Toast.makeText(AsistentesActivity.this, "No existe", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            
+        }
+
+
+/*
+        Query query = FirebaseDatabase.getInstance(URL).getReference("eventos")
+                .orderByChild("id")
+                .equalTo(IdEvento);
+
+        query.addListenerForSingleValueEvent(VEL);
 
         for (int i = 0; i < listaAsistentes.size(); i++){
             Toast.makeText(this, listaAsistentes.get(i), Toast.LENGTH_SHORT).show();
@@ -108,4 +148,25 @@ public class AsistentesActivity extends AppCompatActivity {
 
     }
 
+    ValueEventListener VEL = new ValueEventListener() {
+
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            if (snapshot.exists()) {
+
+                Toast.makeText(AsistentesActivity.this, snapshot.getKey(), Toast.LENGTH_SHORT).show();
+
+            } else
+                Toast.makeText(AsistentesActivity.this, "No se encontraron coincidencias", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            Toast.makeText(AsistentesActivity.this, "Error al acceder a la base de datos", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+ */
+
+}
 }

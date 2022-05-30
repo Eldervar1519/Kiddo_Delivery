@@ -2,7 +2,7 @@ package com.kiddo.kiddodelivery;
 
 import java.util.ArrayList;
 
-public class Asistente {
+public class Asistente extends Usuario{
 
     private String nombre, apellido, calle, población, id, idEvento, confirmacion;
 

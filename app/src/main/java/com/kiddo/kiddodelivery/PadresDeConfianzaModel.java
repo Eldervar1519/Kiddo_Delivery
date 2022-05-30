@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class PadresDeConfianzaModel {
 
-    String nombre, hijos, tlf, uid, muid;
+    private String nombre, hijos, tlf, uid, muid;
     int image, imagebtnLlamar, imagebtnEliminar;
 
 

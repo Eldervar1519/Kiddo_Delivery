@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         //asignamos el CornerRadius
         roundedDrawable.setCornerRadius(originalBitmap.getHeight());
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageViewIcono);
+        ImageView imageView = findViewById(R.id.imageViewIcono);
 
         imageView.setImageDrawable(roundedDrawable);
 
@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (requestCode == 100){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            HomeActivity();
+            irMainActivity();
             try {
                 task.getResult(ApiException.class);
             } catch (ApiException e) {
@@ -139,9 +139,9 @@ public class LoginActivity extends AppCompatActivity {
     /*
     Método para ir a página principal
      */
-    private void HomeActivity() {
+    private void irMainActivity() {
         finish();
-        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
     }
 

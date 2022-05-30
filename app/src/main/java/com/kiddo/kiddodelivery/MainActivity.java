@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         //asignamos el CornerRadius
         roundedDrawable.setCornerRadius(originalBitmap.getHeight());
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageViewIcono);
+        ImageView imageView = findViewById(R.id.imageViewIcono);
 
         imageView.setImageDrawable(roundedDrawable);
 
