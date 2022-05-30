@@ -2,12 +2,19 @@ package com.kiddo.kiddodelivery;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +35,24 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
+        /*
+        redondear imagen
+         */
+        //extraemos el drawable en un bitmap
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.icono_kiddodelivery);
+        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+
+        //creamos el drawable redondeado
+        RoundedBitmapDrawable roundedDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
+
+        //asignamos el CornerRadius
+        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+
+        ImageView imageView = findViewById(R.id.imageViewIcono);
+
+        imageView.setImageDrawable(roundedDrawable);
+
         mAuth = FirebaseAuth.getInstance();
         Dialogo = new ProgressDialog(this);
 
@@ -45,6 +70,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     Dialogo.setCanceledOnTouchOutside(false);
                     Dialogo.show();
                     resetPassword();
+                    Intent i = new Intent(ResetPasswordActivity.this, LoginActivity.class);
+                    startActivity(i);
                 }
                 else
                     Toast.makeText(ResetPasswordActivity.this, "Introduzca el email asociado a su cuenta", Toast.LENGTH_SHORT).show();
